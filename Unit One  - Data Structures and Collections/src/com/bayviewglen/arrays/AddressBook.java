@@ -5,6 +5,7 @@ import java.util.Arrays;
 public class AddressBook {
 	private Contact[] contacts;
 	private int numContacts;
+	String pNumberRegex = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 
 	public AddressBook() {
 		contacts = new Contact[0];
@@ -20,9 +21,24 @@ public class AddressBook {
 	}
 
 	public void addContact() {
+		boolean valid = false;
+		Contact toAdd = null;
+		while(!valid) {
+			int spaces = 0;
 		String contact = askForContactAdd();
+		for (int i = 0; i < contact.length(); i++)
+			if (contact.charAt(i) == ' ')
+				spaces++;
+		if (spaces != 2)
+			System.out.println("Invalid Contact");
+		else {
 		String[] brokenUp = contact.split(" ");
-		Contact toAdd = new Contact(brokenUp[0], brokenUp[1], brokenUp[2]);
+		if (brokenUp[2].matches(pNumberRegex))
+			valid = true;
+		else 
+			System.out.println("Invalid Phone Number. Format like 123-456-7890,(123)456-7890 or 1234567890/n");
+		}
+		}
 		numContacts++;
 		contacts = new Contact[numContacts];
 		contacts[numContacts - 1] = toAdd;
@@ -31,7 +47,6 @@ public class AddressBook {
 	}
 
 	private String askForContactAdd() {
-		// TODO add regex to validate the output
 		System.out.println("Enter name of new contact (John Doe 416-123-4567)");
 		return AdressBookDriver.input.nextLine().trim();
 

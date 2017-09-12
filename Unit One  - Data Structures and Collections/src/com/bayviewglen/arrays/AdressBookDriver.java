@@ -33,8 +33,10 @@ public class AdressBookDriver {
 			contacts.searchByLastN(SEARCH_LAST);
 		if (option == DELETE_LAST)
 			contacts.searchByLastN(DELETE_LAST);
-		if (option == QUIT)
+		if (option == QUIT) {
 			running = false;
+			input.close();
+		}
 
 	}
 

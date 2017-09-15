@@ -1,6 +1,6 @@
 package com.bayviewglen.arrays;
 
-public class Contact {
+public class Contact implements Comparable<Contact>{
 	
 	private String lname;
 	private String fname;
@@ -36,6 +36,11 @@ public class Contact {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	@Override
+	public int compareTo(Contact c) {
+		return lname.compareTo(c.getLname());
 	}
 	
 }

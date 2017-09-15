@@ -17,7 +17,12 @@ public class SudokuCheck {
 		char [][] suduko = createSudoku(input);
 		boolean valid = true;
 		valid = checkSud(suduko,valid);
-		System.out.println(valid);
+			System.out.print("This Suduko solution is ");
+			if (valid)
+				System.out.print("valid and solved");
+			else 
+				System.out.print("invalid and not solved");
+				
 		
 
 	}
@@ -32,8 +37,9 @@ public class SudokuCheck {
 				if (!valid)
 					return false;
 				//TODO MAKE WORK INDEX OUT BOUNDS
-				if (i == 3 ||i==0 || i==6 && j == 0|| j == 3 || j==6)
+				if (i %3 == 0 && j %3 == 0) {
 					valid = testBox(suduko[i][j], j,i, suduko);
+				}
 					
 						
 			}
@@ -45,9 +51,9 @@ public class SudokuCheck {
 	private static boolean testBox(char c, int col, int row, char[][] suduko) {
 		char test = (char) -1;
 		boolean first = true;
-		for (int i = row; i < row+2; i++) {
+		for (int i = row; i < row+3; i++) {
 			first = true;
-			for (int j = col; j < col + 2; j++) {
+			for (int j = col; j < col + 3; j++) {
 				if(!first) {
 					if (test == suduko[i][j])
 						return false;

@@ -19,73 +19,72 @@ public class StacksMathPractise {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		String[] problem = input.nextLine().split(" ");
+		while (input.hasNextLine()) {
+			String[] problem = input.nextLine().split(" ");
 
-		for (int i = 0; i < problem.length; i++) {
-			if (OPERATORS.indexOf(problem[i]) != -1 || problem[i].equals("("))
-				operators.push(problem[i]);
-			if (isNumeric(problem[i])) {
-				if (!operands.empty() && OPERATORS.indexOf((String) operators.peek()) != -1) {
-					operands.push(problem[i]);
-					doTheMath(operands,operators);
-				}
-				else 
-					operands.push(problem[i]);
-			}
-			if (problem[i].equals(")")) {
-				boolean operatorFound = false;
-				while(!operatorFound) {
-					if (((String)(operators.peek())).equals("(")){
-						operators.pop();
-						operatorFound = true;
-						
-					}
-					
-					else if (OPERATORS.indexOf((String)(operators.peek())) != -1) {
+			for (int i = 0; i < problem.length; i++) {
+				if (OPERATORS.indexOf(problem[i]) != -1 || problem[i].equals("("))
+					operators.push(problem[i]);
+				if (isNumeric(problem[i])) {
+					if (!operands.empty() && OPERATORS.indexOf((String) operators.peek()) != -1) {
 						operands.push(problem[i]);
-						doTheMath(operands,operators);
+						doTheMath(operands, operators);
+					} else
+						operands.push(problem[i]);
+				}
+				if (problem[i].equals(")")) {
+					String temp = problem[i];
+					boolean operatorFound = false;
+					while (!operatorFound) {
+						if (((String) (operators.peek())).equals("(")) {
+							operators.pop();
+							operatorFound = true;
+
+						}
+
+						else if (OPERATORS.indexOf((String) (operators.peek())) != -1) {
+							temp = (problem[i]);
+							doTheMath(operands, operators);
+						}
 					}
 				}
+
 			}
+			if (!operators.isEmpty()) {
+				doTheMath(operands, operators);
+			}
+			System.out.println("Daniel math: " + operands.pop());
 
 		}
-		if (!operators.isEmpty()) {
-			doTheMath(operands, operators);
-		}
-		System.out.println("Java math: " + (( 13 + 56 ) * ( ( 20 + 3 + 3 ) )));
-		System.out.println("Daniel math: " + operands.pop());
 	}
 
 	private static void doTheMath(Stack operands, Stack operators) {
 		if (((String) (operators.peek())).equals("+")) {
 			operators.pop();
-			operands.push(""+(Integer.parseInt((String)operands.pop()) + Integer.parseInt((String)operands.pop())));
-		}
-		else if (((String) (operators.peek())).equals("-")) {
+			operands.push("" + (Integer.parseInt((String) operands.pop()) + Integer.parseInt((String) operands.pop())));
+		} else if (((String) (operators.peek())).equals("-")) {
 			operators.pop();
-			operands.push(""+(Integer.parseInt((String)operands.pop()) - Integer.parseInt((String)operands.pop())));
-		}
-		else if (((String) (operators.peek())).equals("*")) {
+			operands.push(
+					"" + (-1 * Integer.parseInt((String) operands.pop()) + Integer.parseInt((String) operands.pop())));
+		} else if (((String) (operators.peek())).equals("*")) {
 			operators.pop();
-			operands.push(""+(Integer.parseInt(((String)(operands.pop()))) * Integer.parseInt(((String)(operands.pop())))));
-		}
-		else if (((String) (operators.peek())).equals("/")) {
+			operands.push(""
+					+ (Integer.parseInt(((String) (operands.pop()))) * Integer.parseInt(((String) (operands.pop())))));
+		} else if (((String) (operators.peek())).equals("/")) {
 			operators.pop();
-			operands.push(""+((Integer.parseInt((String)operands.pop()) / Integer.parseInt((String)operands.pop()))));
+			int first = Integer.parseInt((String) operands.pop());
+			int second = Integer.parseInt((String) operands.pop());
+			operands.push("" + (second / first));
 		}
-		
+
 	}
-	
-	public static boolean isNumeric(String str)  
-	{  
-	  try  
-	  {  
-	    double d = Double.parseDouble(str);  
-	  }  
-	  catch(NumberFormatException nfe)  
-	  {  
-	    return false;  
-	  }  
-	  return true;  
+
+	public static boolean isNumeric(String str) {
+		try {
+			double d = Double.parseDouble(str);
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 }

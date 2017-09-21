@@ -3,7 +3,7 @@ package com.bayviewglen.stacksandqueues;
 public class Stack {
 	private Object[] stack;
 	private int index;
-	private int indexPop;
+	
 	
 	public Stack () {
 		stack = new Object[100];

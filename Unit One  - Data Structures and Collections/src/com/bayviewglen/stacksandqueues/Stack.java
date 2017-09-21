@@ -18,14 +18,14 @@ public class Stack {
 	public Object pop () {
 		Object pop = stack[--index];
 		if (pop == null)
-			return "invalid";
+			throw new NullPointerException();
 		return pop;
 	}
 	
 	public Object peek() {
 		Object pop = stack[index-1];
 		if (pop == null)
-			return "invalid";
+			throw new NullPointerException();
 		return pop;
 	}
 	

@@ -26,7 +26,7 @@ public class Stack {
 	}
 	
 	public boolean empty() {
-		if (index == indexPop)
+		if (stack[index-1] == null )
 			return true;
 		return false;
 	}

@@ -18,11 +18,15 @@ public class Queue {
 	
 	public Object dequeue () {
 		Object pop = queue[indexPop++];
+		if (pop == null)
+			System.out.println("invalid");
 		return pop;
 	}
 	
 	public Object peek() {
 		Object pop = queue[indexPop];
+		if (pop == null)
+			System.out.println("invalid");
 		return pop;
 	}
 	

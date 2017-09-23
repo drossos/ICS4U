@@ -30,7 +30,7 @@ public class Stack {
 	}
 	
 	public boolean empty() {
-		if (stack[index-1] == null )
+		if (index == 0 || stack[index-1] == null )
 			return true;
 		return false;
 	}

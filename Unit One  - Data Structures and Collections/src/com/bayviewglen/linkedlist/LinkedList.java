@@ -52,9 +52,7 @@ public class LinkedList {
 	 * @return true if was able to add element to list
 	 */
 	public boolean add(int index, int toAdd) {
-		if (index == 0)
-			addFirst(toAdd);
-		if (index > numNodes)
+		if (index >= numNodes)
 			throw new IndexOutOfBoundsException();
 		else {
 			IntNode previous = head;
@@ -105,9 +103,7 @@ public class LinkedList {
 	 * @return element at specified position
 	 */
 	public int get(int index) {
-		if (numNodes == 0)
-			throw new IndexOutOfBoundsException();
-		if (index > numNodes)
+		if (index >= numNodes)
 			throw new IndexOutOfBoundsException();
 		IntNode curr = head;
 		for (int i = 0; i < index; i++) {
@@ -146,9 +142,7 @@ public class LinkedList {
 	 * @return element that was in position before was removed
 	 */
 	public int remove(int index) {
-		if (numNodes == 0)
-			throw new IndexOutOfBoundsException();
-		if (index > numNodes)
+		if (index >= numNodes)
 			throw new IndexOutOfBoundsException();
 		else if (index == 0) {
 			return removeFirst();
@@ -194,12 +188,15 @@ public class LinkedList {
 		if (numNodes == 0)
 			throw new IndexOutOfBoundsException();
 		IntNode curr = head;
-		for (int i = 0; i < numNodes-2; i++) {
+		//Iterates to last 
+		for (int i = 1; i < numNodes-1; i++) {
 			curr = curr.getLink();
 		}
+		//sets curr to new tail
 		int temp = curr.getLink().getData();
 		curr.setLink(null);
 		tail = curr;
+		numNodes--;
 		return temp;
 	}
 
@@ -213,19 +210,24 @@ public class LinkedList {
 		if (numNodes == 0)
 			return false;
 		IntNode curr = head;
+		//first checks if first element
 		if (curr.getData() == x) {
 			head = curr.getLink();
 			return true;
 		}
+		//then check rest of list 
 		for (int i = 1; i < numNodes-1; i++) {
 			curr = curr.getLink();
+			//if occurance of in then gets rid of it
 			if (curr.getLink().getData() == x) {
 				curr.setLink(curr.getLink().getLink());
 				numNodes--;
+				//checks if new list is empty
 				if (numNodes == 0) {
 					tail = null;
 					head = null;
 				}
+				//check if there is a new tail
 				if (i+1 == numNodes)
 					tail = curr;
 				return true;
@@ -264,6 +266,10 @@ public class LinkedList {
 		if (index == 0) {
 			removeFirst();
 			return true;
+		}
+		//check if not in the list and if so removes
+		if (index == -1) {
+			return false;
 		}
 		//other wise removes normaly
 		numNodes--;

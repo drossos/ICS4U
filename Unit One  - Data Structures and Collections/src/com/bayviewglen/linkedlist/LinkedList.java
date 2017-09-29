@@ -275,6 +275,8 @@ public class LinkedList {
 		numNodes--;
 		isHere.setLink(isHere.getLink().getLink());
 		return true;
+		
+		//old code that was not as good
 		/*
 		IntNode search = head;
 		for (int i = 0; i < index; i++) {

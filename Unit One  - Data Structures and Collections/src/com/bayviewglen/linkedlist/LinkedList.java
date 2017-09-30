@@ -172,6 +172,12 @@ public class LinkedList {
 	public int removeFirst() {
 		if (numNodes == 0)
 			throw new IndexOutOfBoundsException();
+		//quickly gets rid of list since if only one element and removing last gonne be cleared
+		if (numNodes ==  1) {
+			IntNode temp = head;
+			clear();
+			return temp.getData();
+		}
 		IntNode oldHead = head;
 		IntNode temp = head.getLink();
 		head = temp;
@@ -191,6 +197,12 @@ public class LinkedList {
 	public int removeLast() {
 		if (numNodes == 0)
 			throw new IndexOutOfBoundsException();
+		//quickly gets rid of list since if only one element and removing last gonne be cleared
+		if (numNodes == 1) {
+			IntNode temp = head;
+			clear();
+			return temp.getData();
+		}
 		IntNode curr = head;
 		//Iterates to last 
 		for (int i = 1; i < numNodes-1; i++) {
@@ -317,7 +329,7 @@ public class LinkedList {
 			throw new IndexOutOfBoundsException();
 		if (index == 0) {
 			int temp = head.getData();
-			head = new IntNode(x, head);
+			head = new IntNode(x, null);
 			if (numNodes == 1)
 				tail = head;
 			return temp;

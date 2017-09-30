@@ -233,8 +233,7 @@ public class LinkedList {
 			return true;
 		}
 		//then check rest of list 
-		for (int i = 1; i < numNodes-1; i++) {
-			curr = curr.getLink();
+		for (int i = 1; i < numNodes; i++) {
 			//if occurance of in then gets rid of it
 			if (curr.getLink().getData() == x) {
 				curr.setLink(curr.getLink().getLink());
@@ -245,10 +244,12 @@ public class LinkedList {
 					head = null;
 				}
 				//check if there is a new tail
-				if (i+1 == numNodes)
+				if (i == numNodes)
 					tail = curr;
 				return true;
 			}
+			
+			curr = curr.getLink();
 		}
 		return false;
 	}
@@ -271,7 +272,7 @@ public class LinkedList {
 		}
 		//then goes to check the next element of each element
 		//gets element to before so able to remove
-		for (int i = 0; i < numNodes-1; i++) {
+		for (int i = 1; i < numNodes; i++) {
 			if (curr.getLink().getData() == x) {
 				index = i;
 				isHere = curr;
@@ -287,6 +288,11 @@ public class LinkedList {
 		//check if not in the list and if so removes
 		if (index == -1) {
 			return false;
+		}
+		
+		if (index == numNodes-1) {
+			removeLast();
+			return true;
 		}
 		//other wise removes normaly
 		numNodes--;
@@ -360,7 +366,7 @@ public class LinkedList {
 	public int[] toArray() {
 		int [] temp = new int [numNodes];
 		IntNode curr = head;
-		for (int i  = 0; i < numNodes-1; i++) {
+		for (int i  = 0; i < numNodes; i++) {
 			temp[i] = curr.getData();
 			curr = curr.getLink();
 		}

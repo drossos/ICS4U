@@ -52,8 +52,12 @@ public class LinkedList {
 	 * @return true if was able to add element to list
 	 */
 	public boolean add(int index, int toAdd) {
-		if (index >= numNodes)
+		if (index > numNodes)
 			throw new IndexOutOfBoundsException();
+		else if (index == numNodes) {
+			add(toAdd);
+			return true;
+		}
 		else {
 			IntNode previous = head;
 			for (int i = 0; i < index-1; i++)
@@ -212,6 +216,7 @@ public class LinkedList {
 		IntNode curr = head;
 		//first checks if first element
 		if (curr.getData() == x) {
+			numNodes--;
 			head = curr.getLink();
 			return true;
 		}
@@ -254,7 +259,7 @@ public class LinkedList {
 		}
 		//then goes to check the next element of each element
 		//gets element to before so able to remove
-		for (int i = 1; i < numNodes; i++) {
+		for (int i = 0; i < numNodes-1; i++) {
 			if (curr.getLink().getData() == x) {
 				index = i;
 				isHere = curr;
@@ -343,7 +348,7 @@ public class LinkedList {
 	public int[] toArray() {
 		int [] temp = new int [numNodes];
 		IntNode curr = head;
-		for (int i  = 0; i < numNodes; i++) {
+		for (int i  = 0; i < numNodes-1; i++) {
 			temp[i] = curr.getData();
 			curr = curr.getLink();
 		}

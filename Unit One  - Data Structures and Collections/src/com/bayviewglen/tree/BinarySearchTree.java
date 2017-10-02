@@ -39,9 +39,8 @@ public class BinarySearchTree {
 	}
 
 	public void add(IntTreeNode current, int x) {
-		IntTreeNode temp = new IntTreeNode(x);
-
 		if (current == null) {
+			IntTreeNode temp = new IntTreeNode(x);
 			current = temp;
 		} else if (x < current.getData()) {
 			add(current.getLeft(), x);

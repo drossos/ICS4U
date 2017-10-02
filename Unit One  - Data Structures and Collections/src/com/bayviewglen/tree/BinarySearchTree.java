@@ -38,14 +38,17 @@ public class BinarySearchTree {
 		evaluate(current);
 	}
 
-	public void add(IntTreeNode current, int x) {
-		if (current == null) {
-			IntTreeNode temp = new IntTreeNode(x);
-			current = temp;
-		} else if (x < current.getData()) {
-			add(current.getLeft(), x);
-		} else if (x >= current.getData()) {
-			add(current.getRight(), x);
+	public void add(IntTreeNode currentParent, int x) {
+		if (currentParent == null) {
+			currentParent = new IntTreeNode(x);
+		} else if (x < currentParent.getData() && currentParent.getLeft() != null) {
+			add(currentParent.getLeft(), x);
+		} else if (x >= currentParent.getData() && currentParent.getRight() != null) {
+			add(currentParent.getRight(), x);
+		} else if (x < currentParent.getData() && currentParent.getLeft() == null) {
+			currentParent.setLeft(new IntTreeNode(x));
+		} else if (x >= currentParent.getData() && currentParent.getRight() == null) {
+			currentParent.setRight(new IntTreeNode(x));
 		}
 	}
 

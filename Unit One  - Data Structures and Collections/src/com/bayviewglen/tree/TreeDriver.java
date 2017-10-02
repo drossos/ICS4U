@@ -1,8 +1,18 @@
 package com.bayviewglen.tree;
 
 public class TreeDriver {
-
 		public static void main (String [] args) {
+			BinarySearchTree test = new BinarySearchTree();
+			test.add(3);
+			test.add(5);
+			test.add(1);
+			test.add(80);
+			test.add(0);
+			test.inorderTraversal(test.getRoot());
+			System.out.println();
+			test.postorderTraversal(test.getRoot());
+			System.out.println();
+			test.preorderTraversal(test.getRoot());
 			
 		}
 }

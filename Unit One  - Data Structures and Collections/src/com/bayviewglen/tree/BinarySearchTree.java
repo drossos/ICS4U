@@ -2,7 +2,7 @@ package com.bayviewglen.tree;
 
 public class BinarySearchTree {
 	private IntTreeNode root;
-
+//TODO MAKES SO WORKS FOR GENERAL COMPARABLE INSTANCES
 	public BinarySearchTree(IntTreeNode root) {
 		super();
 		this.root = root;

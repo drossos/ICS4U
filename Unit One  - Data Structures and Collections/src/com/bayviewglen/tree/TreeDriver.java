@@ -20,5 +20,8 @@ public class TreeDriver {
 			test.remove(5);
 			System.out.println();
 			test.inorderTraversal(test.getRoot());
+			Object x = new Integer (2);
+			Object y = new Integer (4);
+			
 		}
 }

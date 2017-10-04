@@ -1,22 +1,22 @@
 package com.bayviewglen.tree;
 
-public class IntTreeNode {
+public class IntTreeNode implements Comparable{
 
-	private int data;
+	private Integer data;
 	private IntTreeNode left;
 	private IntTreeNode right;
 	
 	
-	public IntTreeNode() {
+	public IntTreeNode()  {
 		super();
-		this.data = 0;
+		this.data = new Integer(0);
 		this.left = null;
 		this.right = null;
 	}
 	
 	public IntTreeNode(int data) {
 		super();
-		this.data = data;
+		this.data = new Integer(data);
 		this.left = null;
 		this.right = null;
 	}
@@ -27,7 +27,7 @@ public class IntTreeNode {
 		this.left = left;
 		this.right = right;
 	}
-	public int getData() {
+	public Integer getData() {
 		return data;
 	}
 	public void setData(int data) {
@@ -45,9 +45,16 @@ public class IntTreeNode {
 	public void setRight(IntTreeNode right) {
 		this.right = right;
 	}
+
 	
-	
-	
-	
+	//TODO MAKE SO COMPARES VIA COMPARABLE NOT BST
+	@Override
+	public int compareTo(Object o) {
+		Integer x = ((IntTreeNode)(o)).getData();
+		
+		if (x.intValue() > this.getData().intValue() )
+			return 1;
+		return 0;
+	}
 	
 }

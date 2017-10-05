@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 import com.bayviewglen.tree.BinarySearchTree;
+import com.bayviewglen.tree.TreeNode;
 
 public class AddressBook {
 	private BinarySearchTree contacts;
@@ -15,15 +18,14 @@ public class AddressBook {
 	String pNumberRegex = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 
 	public AddressBook() {
-		contacts = null;
+		contacts = new BinarySearchTree();
 		try {
 			Scanner read = new Scanner(new File ("data/contactList.dat"));
 			numContacts = Integer.parseInt(read.nextLine());
-			contacts = new Contact[numContacts];
 			for (int i = 0; i < numContacts; i++) {
 				String currLine = read.nextLine().trim();
 				String[] parts = currLine.split(" ");
-				contacts[i] = new Contact (parts[0], parts[1], parts[2]);
+				contacts.add(new Contact (parts[0].trim(), parts[1].trim(), parts[2].trim()));
 			}
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -32,11 +34,11 @@ public class AddressBook {
 		
 	}
 
-	public Contact[] getContacts() {
+	public BinarySearchTree getContacts() {
 		return contacts;
 	}
 
-	public void setContacts(Contact[] contacts) {
+	public void setContacts(BinarySearchTree contacts) {
 		this.contacts = contacts;
 	}
 
@@ -63,12 +65,7 @@ public class AddressBook {
 		}
 		//TODO ADD THE TOADD VALUE TO ARRAY
 		numContacts++;
-		Contact [] temp = new Contact[numContacts];
-		for (int i = 0; i < contacts.length; i++) {
-			temp[i] = contacts[i];
-		}
-		temp[temp.length-1 ] = toAdd;
-		contacts = temp;
+		contacts.add(toAdd);
 		saveToFile();
 		
 
@@ -78,11 +75,13 @@ public class AddressBook {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(new File("data/contactList.dat"));
+			ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+			Collections.sort(toWrite);
 			fw.write(numContacts + "");
 			fw.write(System.getProperty("line.separator"));
-			for (int i = 0; i < contacts.length;i++) {
-				fw.write(contacts[i].getFname() + " " + contacts[i].getLname()
-				+ " " + contacts[i].getPhone() );
+			for (int i = 0; i < toWrite.size();i++) {
+				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname()
+				+ " " + ((Contact) toWrite.get(i)).getPhone() );
 				fw.write(System.getProperty("line.separator"));
 			}
 			fw.close();
@@ -99,35 +98,37 @@ public class AddressBook {
 	}
 
 	public void displayAll() {
-		if (contacts.length == 0) {
+		if (numContacts == 0) {
 			System.out.println("You have no contacts");
 		} else {
 			System.out.println("CONTACTS");
-			for (int i = 0; i < contacts.length; i++) {
-				displayInfo(contacts[i]);
-			}
+			displayInfo();
 		}
 		
 
 	}
 
-	private void displayInfo(Contact contact) {
-		System.out.println(contact.getLname() + ", " + contact.getFname()
-				+ " " + contact.getPhone());
+	private void displayInfo() {
+		ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+		Collections.sort(toWrite);
+		for (int i = 0; i < toWrite.size();i++) {
+			System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact) toWrite.get(i)).getFname()
+			+ " " + ((Contact) toWrite.get(i)).getPhone() );
+			
+		}
 		
 	}
 
 	public void searchByLastN(int option) {
-		if (contacts.length == 0) {
+		if (numContacts == 0) {
 			System.out.println("You have no contacts");
 		} else {
 		String lastNameSearch = askLastName();
-		for (int i = 0; i < contacts.length;i++) {
-			if (contacts[i].getLname().equals(lastNameSearch) && option == AdressBookDriver.SEARCH_LAST)
-				displayInfo(contacts[i]);
-			else if (contacts[i].getLname().equals(lastNameSearch) && option == AdressBookDriver.DELETE_LAST){
-				deleteByLastN(i);
-				i--;
+			if (option == AdressBookDriver.SEARCH_LAST)
+				System.out.println(((Contact) contacts.search(lastNameSearch).getData()).forSaving());
+			else if (option == AdressBookDriver.DELETE_LAST){
+				contacts.remove(lastNameSearch);
+				numContacts--;
 			}
 			else 
 				System.out.println("Contact not in adress book/n");
@@ -135,7 +136,7 @@ public class AddressBook {
 			
 		}
 		
-	}
+	
 
 	private String askLastName() {
 		//TODO enter check that is name entering
@@ -144,16 +145,11 @@ public class AddressBook {
 	}
 
 	public void deleteByLastN(int indexOfRemove) {
-		Contact [] temp = new Contact[numContacts - 1];
-		int tempInd = 0;
-		for (int i = 0; i < contacts.length; i++) {
-			if (i != indexOfRemove) {
-				temp[tempInd] = contacts[i];
-				tempInd++;
-			}
-		}
+		ArrayList<Contact> temp = contacts.toArray(contacts.getRoot());
+		Collections.sort(temp);
+		Object x = temp.remove(indexOfRemove);
+		contacts.remove((Comparable) x);
 		numContacts--;
-		contacts = temp;
 		saveToFile();
 	}
 

@@ -1,5 +1,7 @@
 package com.bayviewglen.tree;
 
+import java.util.ArrayList;
+
 public class BinarySearchTree {
 	private TreeNode root;
 	public BinarySearchTree(TreeNode root) {
@@ -39,13 +41,13 @@ public class BinarySearchTree {
 	public void add(TreeNode currentParent, Comparable x) {
 		if (currentParent == null) {
 			currentParent = new TreeNode(x);
-		} else if (currentParent.compareTo(x) > 0 && currentParent.getLeft() != null) {
+		} else if (currentParent.compareTo(x) < 0 && currentParent.getLeft() != null) {
 			add(currentParent.getLeft(), x);
-		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() != null) {
+		} else if (currentParent.compareTo(x) >= 0 && currentParent.getRight() != null) {
 			add(currentParent.getRight(), x);
-		} else if (currentParent.compareTo(x) > 0  && currentParent.getLeft() == null) {
+		} else if (currentParent.compareTo(x) < 0  && currentParent.getLeft() == null) {
 			currentParent.setLeft(new TreeNode(x));
-		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() == null) {
+		} else if (currentParent.compareTo(x) >= 0 && currentParent.getRight() == null) {
 			currentParent.setRight(new TreeNode(x));
 		}
 	}
@@ -69,10 +71,10 @@ public class BinarySearchTree {
 		//WHEN CHECKING .EQUALS EVERYTHING NEEDS TO BE PUT TO STRING SO ALL TYPES OF DATA
 		//CAN BE USED
 		//checks if needs to go right
-		if (node.compareTo(x) < 0 && !node.getRight().getData().toString().equals(x.toString()))
+		if (node.compareTo(x) > 0 && !node.getRight().getData().toString().equals(x.toString()))
 			return remove(x, node.getRight());
 		//checks if needs to go left
-		else if (node.compareTo(x) > 0 && !node.getRight().getData().equals(x.toString()))
+		else if (node.compareTo(x) < 0 && !node.getLeft().getData().toString().equals(x.toString()))
 			return remove(x, node.getLeft());
 		//checks if empty
 		else if (node.compareTo(x) != 0 && node.getRight() == null && node.getLeft() == null)
@@ -83,7 +85,7 @@ public class BinarySearchTree {
 			 * true; } else
 			 */
 			//this check if the parent root node is the one to be removed
-			if (node.compareTo(x) < 0 && node.getRight().getData().toString().equals(x.toString())) {
+			if (node.compareTo(x) > 0 && node.getRight().getData().toString().equals(x.toString())) {
 				TreeNode toRemove = node.getRight();
 				if (toRemove.getLeft() == null && toRemove.getRight() == null) { 
 					node.setRight(null); 
@@ -168,6 +170,23 @@ public class BinarySearchTree {
 		else
 			return findLargest(root);
 	}
+	
+	public ArrayList toArray(TreeNode current) {
+		ArrayList result = new ArrayList<>();
+	    if (current.getLeft() != null) {
+	        result.addAll(toArray(current.getLeft()));
+	    }
+
+	    if (current.getRight() != null) {
+	        result.addAll(toArray(current.getRight()));
+	    }
+
+	    result.add(current.getData());
+
+	    return result;
+	
+	}
+
 
 	private TreeNode findLargest(TreeNode node) {
 		if (node.getRight() == null)

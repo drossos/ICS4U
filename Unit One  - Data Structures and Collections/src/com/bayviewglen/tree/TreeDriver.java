@@ -14,7 +14,8 @@ public class TreeDriver {
 			test.add(new Integer(1));
 			test.add(new Integer(80));
 			test.add(new Integer(0));
-			test.add(new Contact());
+			test.add(new Contact("ass","pls","work"));
+			test.toArray(test.getRoot());
 			test.inorderTraversal(test.getRoot());
 			System.out.println();
 			test.postorderTraversal(test.getRoot());

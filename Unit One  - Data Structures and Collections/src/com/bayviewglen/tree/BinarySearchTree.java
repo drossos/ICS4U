@@ -1,9 +1,9 @@
 package com.bayviewglen.tree;
 
 public class BinarySearchTree {
-	private IntTreeNode root;
+	private TreeNode root;
 //TODO MAKES SO WORKS FOR GENERAL COMPARABLE INSTANCES
-	public BinarySearchTree(IntTreeNode root) {
+	public BinarySearchTree(TreeNode root) {
 		super();
 		this.root = root;
 	}
@@ -13,7 +13,7 @@ public class BinarySearchTree {
 		this.root = null;
 	}
 
-	public void inorderTraversal(IntTreeNode current) {
+	public void inorderTraversal(TreeNode current) {
 		if (current.getLeft() != null)
 			inorderTraversal(current.getLeft());
 		evaluate(current);
@@ -21,7 +21,7 @@ public class BinarySearchTree {
 			inorderTraversal(current.getRight());
 	}
 
-	public void preorderTraversal(IntTreeNode current) {
+	public void preorderTraversal(TreeNode current) {
 		evaluate(current);
 		if (current.getLeft() != null)
 			preorderTraversal(current.getLeft());
@@ -29,7 +29,7 @@ public class BinarySearchTree {
 			preorderTraversal(current.getRight());
 	}
 
-	public void postorderTraversal(IntTreeNode current) {
+	public void postorderTraversal(TreeNode current) {
 		if (current.getLeft() != null)
 			postorderTraversal(current.getLeft());
 		if (current.getRight() != null)
@@ -37,39 +37,39 @@ public class BinarySearchTree {
 		evaluate(current);
 	}
 
-	public void add(IntTreeNode currentParent, int x) {
+	public void add(TreeNode currentParent, Comparable x) {
 		if (currentParent == null) {
-			currentParent = new IntTreeNode(x);
-		} else if (x < currentParent.getData() && currentParent.getLeft() != null) {
+			currentParent = new TreeNode(x);
+		} else if (currentParent.compareTo(x) > 0 && currentParent.getLeft() != null) {
 			add(currentParent.getLeft(), x);
-		} else if (x >= currentParent.getData() && currentParent.getRight() != null) {
+		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() != null) {
 			add(currentParent.getRight(), x);
-		} else if (x < currentParent.getData() && currentParent.getLeft() == null) {
-			currentParent.setLeft(new IntTreeNode(x));
-		} else if (x >= currentParent.getData() && currentParent.getRight() == null) {
-			currentParent.setRight(new IntTreeNode(x));
+		} else if (currentParent.compareTo(x) > 0  && currentParent.getLeft() == null) {
+			currentParent.setLeft(new TreeNode(x));
+		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() == null) {
+			currentParent.setRight(new TreeNode(x));
 		}
 	}
 
-	public void add(int x) {
+	public void add(Comparable x) {
 		if (root == null) {
-			IntTreeNode temp = new IntTreeNode(x);
+			TreeNode temp = new TreeNode(x);
 			root = temp;
 		} else
 			add(root, x);
 	}
 
-	public boolean remove(int x) {
+	public boolean remove(Comparable x) {
 		if (root == null)
 			return false;
 		else
 			return remove(x, root);
 	}
 
-	private boolean remove(int x, IntTreeNode node) {
-		if (node.getData() < x && node.getRight().getData() != x)
+	private boolean remove(Comparable x, TreeNode node) {
+		if (node.compareTo(x) < 0 && !node.getRight().getData().equals(x))
 			return remove(x, node.getRight());
-		else if (node.getData() > x && node.getLeft().getData() != x)
+		else if (node.compareTo(x) > 0 && !node.getRight().getData().equals(x))
 			return remove(x, node.getLeft());
 		else {
 			/*
@@ -77,8 +77,8 @@ public class BinarySearchTree {
 			 * true; } else
 			 */
 			//this check if the parent root node is the one to be removed
-			if (node.getData() < x && node.getRight().getData() == x) {
-				IntTreeNode toRemove = node.getRight();
+			if (node.compareTo(x) < 0 && node.getRight().getData().equals(x)) {
+				TreeNode toRemove = node.getRight();
 				if (toRemove.getLeft() == null && toRemove.getRight() == null) { 
 					node.setRight(null); 
 					return true; 
@@ -91,13 +91,13 @@ public class BinarySearchTree {
 					//remove(toRemove.getLeft().getData());
 					return true;
 				} else {
-					IntTreeNode replace = findLargest(toRemove.getLeft());
+					TreeNode replace = findLargest(toRemove.getLeft());
 					toRemove.setData(replace.getData());
 					remove(replace.getData(), toRemove);
 					return true;
 				}
 			} else {
-				IntTreeNode toRemove = node.getLeft();
+				TreeNode toRemove = node.getLeft();
 				if (toRemove.getLeft() == null && toRemove.getRight() == null) { 
 					node.setLeft(null); 
 					return true; 
@@ -110,7 +110,7 @@ public class BinarySearchTree {
 					//remove(toRemove.getLeft().getData());
 					return true;
 				} else {
-					IntTreeNode replace = findLargest(toRemove.getLeft());
+					TreeNode replace = findLargest(toRemove.getLeft());
 					toRemove.setData(replace.getData());
 					remove(replace.getData(), toRemove);
 					return true;
@@ -120,11 +120,11 @@ public class BinarySearchTree {
 		
 	}
 
-	private void evaluate(IntTreeNode current) {
+	private void evaluate(TreeNode current) {
 		System.out.println(current.getData());
 	}
 
-	public IntTreeNode findSmallest() {
+	public TreeNode findSmallest() {
 		if (root == null)
 			return null;
 		else
@@ -132,23 +132,23 @@ public class BinarySearchTree {
 
 	}
 
-	public IntTreeNode search(int x) {
+	public TreeNode search(int x) {
 		if (root == null)
 			return null;
 		else
 			return search(x, root);
 	}
 
-	private IntTreeNode search(int x, IntTreeNode node) {
-		if (node.getData() < x)
+	private TreeNode search(int x, TreeNode node) {
+		if (node.compareTo(x) > 0)
 			return search(x, node.getRight());
-		else if (node.getData() > x)
+		else if (node.compareTo(x) < 0)
 			return search(x, node.getLeft());
 		else
 			return node;
 	}
 
-	private IntTreeNode findSmallest(IntTreeNode node) {
+	private TreeNode findSmallest(TreeNode node) {
 		if (node.getLeft() == null)
 			return node;
 		else
@@ -156,25 +156,25 @@ public class BinarySearchTree {
 
 	}
 
-	public IntTreeNode findLargest() {
+	public TreeNode findLargest() {
 		if (root == null)
 			return null;
 		else
 			return findLargest(root);
 	}
 
-	private IntTreeNode findLargest(IntTreeNode node) {
+	private TreeNode findLargest(TreeNode node) {
 		if (node.getRight() == null)
 			return node;
 		else
 			return findLargest(node.getRight());
 	}
 
-	public IntTreeNode getRoot() {
+	public TreeNode getRoot() {
 		return root;
 	}
 
-	public void setRoot(IntTreeNode root) {
+	public void setRoot(TreeNode root) {
 		this.root = root;
 	}
 

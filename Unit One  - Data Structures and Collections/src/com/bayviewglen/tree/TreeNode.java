@@ -1,5 +1,7 @@
 package com.bayviewglen.tree;
 
+import com.bayviewglen.arrays.Contact;
+
 public class TreeNode implements Comparable {
 	private TreeNode left;
 	private TreeNode right;
@@ -55,8 +57,14 @@ public class TreeNode implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
+		if (o instanceof Contact) {
+			if (this.data instanceof Contact) {
+				return ((Contact)(this.data)).getLname().compareTo(((Contact)(o)).getLname());
+			}
+			return this.data.toString().compareTo(((Contact)(o)).getLname());
+		}
 		Comparable x = (Comparable)o;
-		return this.getData().compareTo(x);
+		return this.getData().toString().compareTo(x.toString());
 	}
 	
 	

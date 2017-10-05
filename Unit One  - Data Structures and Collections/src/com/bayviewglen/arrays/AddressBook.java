@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import com.bayviewglen.tree.BinarySearchTree;
+
 public class AddressBook {
-	private Contact[] contacts;
+	private BinarySearchTree contacts;
 	private int numContacts;
 	String pNumberRegex = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 

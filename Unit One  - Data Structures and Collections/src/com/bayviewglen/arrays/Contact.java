@@ -43,4 +43,9 @@ public class Contact implements Comparable<Contact>{
 		return lname.compareTo(c.getLname());
 	}
 	
+	@Override
+	public String toString() {
+		return this.lname;
+	}
+	
 }

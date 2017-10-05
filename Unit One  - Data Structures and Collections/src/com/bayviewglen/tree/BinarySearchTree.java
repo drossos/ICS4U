@@ -2,7 +2,6 @@ package com.bayviewglen.tree;
 
 public class BinarySearchTree {
 	private TreeNode root;
-//TODO MAKES SO WORKS FOR GENERAL COMPARABLE INSTANCES
 	public BinarySearchTree(TreeNode root) {
 		super();
 		this.root = root;
@@ -67,17 +66,24 @@ public class BinarySearchTree {
 	}
 
 	private boolean remove(Comparable x, TreeNode node) {
-		if (node.compareTo(x) < 0 && !node.getRight().getData().equals(x))
+		//WHEN CHECKING .EQUALS EVERYTHING NEEDS TO BE PUT TO STRING SO ALL TYPES OF DATA
+		//CAN BE USED
+		//checks if needs to go right
+		if (node.compareTo(x) < 0 && !node.getRight().getData().toString().equals(x.toString()))
 			return remove(x, node.getRight());
-		else if (node.compareTo(x) > 0 && !node.getRight().getData().equals(x))
+		//checks if needs to go left
+		else if (node.compareTo(x) > 0 && !node.getRight().getData().equals(x.toString()))
 			return remove(x, node.getLeft());
+		//checks if empty
+		else if (node.compareTo(x) != 0 && node.getRight() == null && node.getLeft() == null)
+			return false;
 		else {
 			/*
 			 * if (node.getLeft() == null && node.getRight() == null) { node = null; return
 			 * true; } else
 			 */
 			//this check if the parent root node is the one to be removed
-			if (node.compareTo(x) < 0 && node.getRight().getData().equals(x)) {
+			if (node.compareTo(x) < 0 && node.getRight().getData().toString().equals(x.toString())) {
 				TreeNode toRemove = node.getRight();
 				if (toRemove.getLeft() == null && toRemove.getRight() == null) { 
 					node.setRight(null); 
@@ -121,7 +127,7 @@ public class BinarySearchTree {
 	}
 
 	private void evaluate(TreeNode current) {
-		System.out.println(current.getData());
+		System.out.println(current.getData().toString());
 	}
 
 	public TreeNode findSmallest() {
@@ -132,14 +138,14 @@ public class BinarySearchTree {
 
 	}
 
-	public TreeNode search(int x) {
+	public TreeNode search(Comparable x) {
 		if (root == null)
 			return null;
 		else
 			return search(x, root);
 	}
 
-	private TreeNode search(int x, TreeNode node) {
+	private TreeNode search(Comparable x, TreeNode node) {
 		if (node.compareTo(x) > 0)
 			return search(x, node.getRight());
 		else if (node.compareTo(x) < 0)

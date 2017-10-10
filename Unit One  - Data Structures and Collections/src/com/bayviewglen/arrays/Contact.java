@@ -40,12 +40,12 @@ public class Contact implements Comparable{
 
 	@Override
 	public int compareTo(Object o) {
-		return lname.compareTo(((Contact)(o)).getLname());
+		return (fname + " " + lname).compareTo(((Contact)(o)).getFname() + " " + ((Contact)(o)).getLname());
 	}
 	
 	@Override
 	public String toString() {
-		return this.lname;
+		return this.fname+ " " + this.lname;
 	}
 	
 	public String forSaving() {

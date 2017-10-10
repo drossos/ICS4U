@@ -20,18 +20,18 @@ public class AddressBook {
 	public AddressBook() {
 		contacts = new BinarySearchTree();
 		try {
-			Scanner read = new Scanner(new File ("data/contactList.dat"));
+			Scanner read = new Scanner(new File("data/contactList.dat"));
 			numContacts = Integer.parseInt(read.nextLine());
 			for (int i = 0; i < numContacts; i++) {
 				String currLine = read.nextLine().trim();
 				String[] parts = currLine.split(" ");
-				contacts.add(new Contact (parts[0].trim(), parts[1].trim(), parts[2].trim()));
+				contacts.add(new Contact(parts[0].trim(), parts[1].trim(), parts[2].trim()));
 			}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				System.out.println(e.getMessage());
-			}
-		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+
 	}
 
 	public BinarySearchTree getContacts() {
@@ -45,29 +45,27 @@ public class AddressBook {
 	public void addContact() {
 		boolean valid = false;
 		Contact toAdd = null;
-		while(!valid) {
+		while (!valid) {
 			int spaces = 0;
-		String contact = askForContactAdd();
-		for (int i = 0; i < contact.length(); i++)
-			if (contact.charAt(i) == ' ')
-				spaces++;
-		if (spaces != 2)
-			System.out.println("Invalid Contact");
-		else {
-		String[] brokenUp = contact.split(" ");
-		if (brokenUp[2].matches(pNumberRegex)) {
-			valid = true;
-			toAdd = new Contact(brokenUp[0], brokenUp[1], brokenUp[2]);
+			String contact = askForContactAdd();
+			for (int i = 0; i < contact.length(); i++)
+				if (contact.charAt(i) == ' ')
+					spaces++;
+			if (spaces != 2)
+				System.out.println("Invalid Contact");
+			else {
+				String[] brokenUp = contact.split(" ");
+				if (brokenUp[2].matches(pNumberRegex)) {
+					valid = true;
+					toAdd = new Contact(brokenUp[0], brokenUp[1], brokenUp[2]);
+				} else
+					System.out.println("Invalid Phone Number. Format like 123-456-7890,(123)456-7890 or 1234567890\n");
+			}
 		}
-		else 
-			System.out.println("Invalid Phone Number. Format like 123-456-7890,(123)456-7890 or 1234567890\n");
-		}
-		}
-		//TODO ADD THE TOADD VALUE TO ARRAY
+		// TODO ADD THE TOADD VALUE TO ARRAY
 		numContacts++;
 		contacts.add(toAdd);
 		saveToFile();
-		
 
 	}
 
@@ -79,16 +77,16 @@ public class AddressBook {
 			Collections.sort(toWrite);
 			fw.write(numContacts + "");
 			fw.write(System.getProperty("line.separator"));
-			for (int i = 0; i < toWrite.size();i++) {
-				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname()
-				+ " " + ((Contact) toWrite.get(i)).getPhone() );
+			for (int i = 0; i < toWrite.size(); i++) {
+				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() + " "
+						+ ((Contact) toWrite.get(i)).getPhone());
 				fw.write(System.getProperty("line.separator"));
 			}
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private String askForContactAdd() {
@@ -104,54 +102,62 @@ public class AddressBook {
 			System.out.println("CONTACTS");
 			displayInfo();
 		}
-		
 
 	}
 
 	private void displayInfo() {
 		ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
 		Collections.sort(toWrite);
-		for (int i = 0; i < toWrite.size();i++) {
+		for (int i = 0; i < toWrite.size(); i++) {
 			System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact) toWrite.get(i)).getFname()
-			+ " " + ((Contact) toWrite.get(i)).getPhone() );
-			
+					+ " " + ((Contact) toWrite.get(i)).getPhone());
+
 		}
-		
+
 	}
 
 	public void searchByLastN(int option) {
 		if (numContacts == 0) {
 			System.out.println("You have no contacts");
 		} else {
-		String lastNameSearch = askLastName();
-			if (option == AdressBookDriver.SEARCH_LAST)
-				System.out.println(((Contact) contacts.search(lastNameSearch).getData()).forSaving());
-			else if (option == AdressBookDriver.DELETE_LAST){
-				contacts.remove(lastNameSearch);
+		String nameToRemove = askName();
+			if (option == AdressBookDriver.SEARCH_LAST) {
+				Comparable search = contacts.search(nameToRemove);
+				if (search != null)
+					System.out.println(((Contact) contacts.search(nameToRemove).getData()).forSaving());
+				else {
+					System.out.println("That contact is not in your address book");
+					return;
+				}
+			}else if (option == AdressBookDriver.DELETE_LAST){
+				boolean removed = contacts.remove(nameToRemove);
+				if (removed) {
 				numContacts--;
+				System.out.println("Succesfully Deleted");
+				saveToFile();
+			} else 
+				System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 			}
-			else 
-				System.out.println("Contact not in adress book/n");
 		}
 			
 		}
-		
-	
 
-	private String askLastName() {
-		//TODO enter check that is name entering
-		System.out.println("Enter in last name of contact: ");
+	private String askName() {
+		// TODO enter check that is name entering
+		System.out.println("Enter in the name of contact: ");
 		return AdressBookDriver.input.nextLine().trim();
 	}
 
 	public void deleteByLastN(int indexOfRemove) {
 		ArrayList<Contact> temp = contacts.toArray(contacts.getRoot());
 		Collections.sort(temp);
-		Object x = temp.remove(indexOfRemove);
-		contacts.remove((Comparable) x);
-		numContacts--;
-		saveToFile();
+		Contact x = temp.remove(indexOfRemove);
+		boolean removed = contacts.remove((Comparable) x);
+		if (removed) {
+			numContacts--;
+			saveToFile();
+		} else {
+		}
 	}
-
 
 }

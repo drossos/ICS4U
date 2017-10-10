@@ -61,8 +61,8 @@ public class AdressBookDriver {
 		System.out.println("Commands:");
 		System.out.println("1. Add a contact");
 		System.out.println("2. Display all contact");
-		System.out.println("3. Search for contact (based off last name)");
-		System.out.println("4. Delete contact (based off last name)");
+		System.out.println("3. Search for contact (*first* *last*)");
+		System.out.println("4. Delete contact (*first* *last*)");
 		System.out.println("5. Quit");
 
 	}

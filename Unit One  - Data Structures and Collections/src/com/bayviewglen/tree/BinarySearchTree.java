@@ -1,6 +1,11 @@
 package com.bayviewglen.tree;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import com.bayviewglen.arrays.Contact;
 
 public class BinarySearchTree {
 	private TreeNode root;
@@ -79,17 +84,16 @@ public class BinarySearchTree {
 			}
 			else if (node.getLeft() == null) {
 			node.setData(node.getRight().getData());
-			remove((Comparable) node.getRight().getData(),node.getRight());
+			x = node.getRight().getData();
 			}
 			else {
 				node.setData(node.getLeft().getData());
-				remove((Comparable) node.getLeft().getData(),node.getLeft());
+				x = node.getLeft().getData();
 			}
 			
-			return true;
 		}
 		// checks if needs to go right
-		else if (node.compareTo(x) > 0 && node.getRight() != null
+		if (node.compareTo(x) > 0 && node.getRight() != null
 				&& !node.getRight().getData().toString().equals(x.toString()))
 			return remove(x, node.getRight());
 		else if (node.compareTo(x) > 0 && node.getRight() == null)
@@ -157,7 +161,10 @@ public class BinarySearchTree {
 	}
 
 	private void evaluate(TreeNode current) {
-		System.out.println(current.getData().toString());
+		if (current.getData() instanceof Contact)
+			System.out.println(((Contact)(current.getData())).forSaving());
+		else
+			System.out.println(current.getData().toString());
 	}
 
 	public TreeNode findSmallest() {
@@ -228,6 +235,19 @@ public class BinarySearchTree {
 			return node;
 		else
 			return findLargest(node.getRight());
+	}
+	
+	public void saveToFile(FileWriter fw, TreeNode current) throws IOException {
+		if (current.getData() instanceof Contact) {
+			fw.write(((Contact)(current.getData())).forSaving());
+		} else
+			fw.write(((Contact)(current.getData())).forSaving());
+		fw.write(System.getProperty("line.separator"));
+		
+		if (current.getLeft() != null)
+			saveToFile(fw,current.getLeft());
+		if (current.getRight() != null)
+			saveToFile(fw,current.getRight());
 	}
 
 	public TreeNode getRoot() {

@@ -77,11 +77,12 @@ public class AddressBook {
 			Collections.sort(toWrite);
 			fw.write(numContacts + "");
 			fw.write(System.getProperty("line.separator"));
-			for (int i = 0; i < toWrite.size(); i++) {
+			contacts.saveToFile(fw,contacts.getRoot());
+			/*for (int i = 0; i < toWrite.size(); i++) {
 				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() + " "
 						+ ((Contact) toWrite.get(i)).getPhone());
 				fw.write(System.getProperty("line.separator"));
-			}
+			}*/
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -106,13 +107,15 @@ public class AddressBook {
 	}
 
 	private void displayInfo() {
+		contacts.inorderTraversal(contacts.getRoot());
+		/*
 		ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
 		Collections.sort(toWrite);
 		for (int i = 0; i < toWrite.size(); i++) {
 			System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact) toWrite.get(i)).getFname()
 					+ " " + ((Contact) toWrite.get(i)).getPhone());
 
-		}
+		}*/
 
 	}
 
@@ -126,7 +129,7 @@ public class AddressBook {
 				if (search != null)
 					System.out.println(((Contact) contacts.search(nameToRemove).getData()).forSaving());
 				else {
-					System.out.println("That contact is not in your address book");
+					System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 					return;
 				}
 			}else if (option == AdressBookDriver.DELETE_LAST){

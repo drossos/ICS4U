@@ -49,7 +49,7 @@ public class Contact implements Comparable{
 	}
 	
 	public String forSaving() {
-		return fname + lname + phone;
+		return fname + " " + lname + " " + phone;
 	}
 
 	

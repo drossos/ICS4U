@@ -59,7 +59,7 @@ public class TreeNode implements Comparable {
 	public int compareTo(Object o) {
 		if (o instanceof Contact) {
 			if (this.data instanceof Contact) {
-				return ((Contact)(this.data)).toString().compareTo(((Contact)(o)).getLname());
+				return ((Contact)(this.data)).toString().compareTo(((Contact)(o)).toString());
 			}
 			return this.data.toString().compareTo(((Contact)(o)).getLname());
 		}

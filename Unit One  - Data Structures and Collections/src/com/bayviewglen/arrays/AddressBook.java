@@ -17,6 +17,7 @@ public class AddressBook {
 	private int numContacts;
 	String pNumberRegex = "\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}";
 
+	// reads from the file and populates the tree with those nodes
 	public AddressBook() {
 		contacts = new BinarySearchTree();
 		try {
@@ -42,6 +43,7 @@ public class AddressBook {
 		this.contacts = contacts;
 	}
 
+	// adds new node to the tree
 	public void addContact() {
 		boolean valid = false;
 		Contact toAdd = null;
@@ -62,27 +64,33 @@ public class AddressBook {
 					System.out.println("Invalid Phone Number. Format like 123-456-7890,(123)456-7890 or 1234567890\n");
 			}
 		}
-		// TODO ADD THE TOADD VALUE TO ARRAY
 		numContacts++;
 		contacts.add(toAdd);
 		saveToFile();
 
 	}
 
+	// now just declares the file writer and then passes into tree to save to file
+	// with declared filewriter
 	private void saveToFile() {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(new File("data/contactList.dat"));
-			/*ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
-			Collections.sort(toWrite);*/
+			/*
+			 * ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+			 * Collections.sort(toWrite);
+			 */
 			fw.write(numContacts + "");
-			fw.write(System.getProperty("line.separator"));
-			contacts.saveToFile(fw,contacts.getRoot());
-			/*for (int i = 0; i < toWrite.size(); i++) {
-				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() + " "
-						+ ((Contact) toWrite.get(i)).getPhone());
+			if (numContacts != 0) {
 				fw.write(System.getProperty("line.separator"));
-			}*/
+				contacts.saveToFile(fw, contacts.getRoot());
+				/*
+				 * for (int i = 0; i < toWrite.size(); i++) { fw.write(((Contact)
+				 * toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() +
+				 * " " + ((Contact) toWrite.get(i)).getPhone());
+				 * fw.write(System.getProperty("line.separator")); }
+				 */
+			}
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,21 +117,25 @@ public class AddressBook {
 	private void displayInfo() {
 		contacts.inorderTraversal(contacts.getRoot());
 		/*
-		ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
-		Collections.sort(toWrite);
-		for (int i = 0; i < toWrite.size(); i++) {
-			System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact) toWrite.get(i)).getFname()
-					+ " " + ((Contact) toWrite.get(i)).getPhone());
-
-		}*/
+		 * ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+		 * Collections.sort(toWrite); for (int i = 0; i < toWrite.size(); i++) {
+		 * System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact)
+		 * toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getPhone());
+		 * 
+		 * }
+		 */
 
 	}
 
+	// similar in asking for a name so search and remove start with same user input
+	// process
 	public void searchByLastN(int option) {
 		if (numContacts == 0) {
 			System.out.println("You have no contacts");
 		} else {
-		String nameToRemove = askName();
+			String nameToRemove = askName();
+			// just searches for contact based of first and last name given for string if it
+			// is found in tree
 			if (option == AdressBookDriver.SEARCH_LAST) {
 				Comparable search = contacts.search(nameToRemove);
 				if (search != null)
@@ -132,25 +144,40 @@ public class AddressBook {
 					System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 					return;
 				}
-			}else if (option == AdressBookDriver.DELETE_LAST){
-				boolean removed = contacts.remove(nameToRemove);
+			} else if (option == AdressBookDriver.DELETE_LAST) {
+				String[] toRemove = nameToRemove.split(" ");
+				// makes a new contact, just because that is how the method works, and then
+				// tries to remove it from tree then writes updated tree to file
+				boolean removed = contacts.remove(new Contact(toRemove[0], toRemove[1], "1234567899"),
+						contacts.getRoot());
 				if (removed) {
-				numContacts--;
-				System.out.println("Succesfully Deleted");
-				saveToFile();
-			} else 
-				System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
+					numContacts--;
+					System.out.println("Succesfully Deleted");
+					saveToFile();
+				} else
+					System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 			}
 		}
-			
-		}
+
+	}
 
 	private String askName() {
 		// TODO enter check that is name entering
-		System.out.println("Enter in the name of contact: ");
-		return AdressBookDriver.input.nextLine().trim();
+		boolean valid = false;
+		String respon = "";
+		while (!valid) {
+			System.out.println("Enter in the name of contact: ");
+			respon = AdressBookDriver.input.nextLine().trim();
+			if (respon.indexOf(" ") != -1)
+				valid = true;
+			else
+				System.out.println("That is not valid first and last name");
+		}
+		return respon;
 	}
 
+	// another remove method that does not work for Tree and was for array data
+	// structure, removed based off of index
 	public void deleteByLastN(int indexOfRemove) {
 		ArrayList<Contact> temp = contacts.toArray(contacts.getRoot());
 		Collections.sort(temp);

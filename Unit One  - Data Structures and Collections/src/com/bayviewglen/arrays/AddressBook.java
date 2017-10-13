@@ -73,8 +73,8 @@ public class AddressBook {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(new File("data/contactList.dat"));
-			ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
-			Collections.sort(toWrite);
+			/*ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+			Collections.sort(toWrite);*/
 			fw.write(numContacts + "");
 			fw.write(System.getProperty("line.separator"));
 			contacts.saveToFile(fw,contacts.getRoot());

@@ -47,13 +47,13 @@ public class BinarySearchTree {
 	public void add(TreeNode currentParent, Comparable x) {
 		if (currentParent == null) {
 			currentParent = new TreeNode(x);
-		} else if (currentParent.compareTo(x) <= 0 && currentParent.getLeft() != null) {
+		} else if (currentParent.compareTo(x) >= 0 && currentParent.getLeft() != null) {
 			add(currentParent.getLeft(), x);
-		} else if (currentParent.compareTo(x) > 0 && currentParent.getRight() != null) {
+		} else if (currentParent.compareTo(x) < 0 && currentParent.getRight() != null) {
 			add(currentParent.getRight(), x);
-		} else if (currentParent.compareTo(x) <= 0 && currentParent.getLeft() == null) {
+		} else if (currentParent.compareTo(x) >= 0 && currentParent.getLeft() == null) {
 			currentParent.setLeft(new TreeNode(x));
-		} else if (currentParent.compareTo(x) > 0 && currentParent.getRight() == null) {
+		} else if (currentParent.compareTo(x) < 0 && currentParent.getRight() == null) {
 			currentParent.setRight(new TreeNode(x));
 		}
 	}
@@ -73,36 +73,55 @@ public class BinarySearchTree {
 			return remove(x, root);
 	}
 
-	private boolean remove(Comparable x, TreeNode node) {
+	public boolean remove(Comparable x, TreeNode node) {
 		// WHEN CHECKING .EQUALS EVERYTHING NEEDS TO BE PUT TO STRING SO ALL TYPES OF
 		// DATA
 		// CAN BE USED
 		// TODO this checkszx if the parent root node is the one to be removed
-		if (node == root && node.compareTo(x) == 0) {
+		if (node.compareTo(x) == 0) {
 			if (node.getRight() == null && node.getLeft() == null) {
 				root = null;
+				return true;
+			} else if (node.getLeft() == null) {
+				TreeNode replace = findSmallest(node.getRight());
+				node.setData(replace.getData());
+				if (node.getRight().getData().toString().equals(replace.getData().toString()) && node.getRight().getRight() == null && node.getRight().getLeft() == null)
+					node.setRight(null);
+				else
+					remove(replace.getData(), node.getRight());
+				return true;
+				/*
+				 * node.setData(node.getRight().getData()); return
+				 * remove(node.getRight().getData(), node.getRight());
+				 */
+				// x = node.getRight().getData();
+			} else {
+				TreeNode replace = findLargest(node.getLeft());
+				node.setData(replace.getData());
+				if (node.getLeft().getData().toString().equals(replace.getData().toString()) && node.getLeft().getRight() == null && node.getLeft().getLeft() == null)
+					node.setLeft(null);
+				else
+					remove(replace.getData(), node.getLeft());
+				return true;
+				/*
+				 * node.setData(node.getLeft().getData()); return
+				 * remove(node.getLeft().getData(), node.getLeft());
+				 */
+				// x = node.getLeft().getData();
 			}
-			else if (node.getLeft() == null) {
-			node.setData(node.getRight().getData());
-			x = node.getRight().getData();
-			}
-			else {
-				node.setData(node.getLeft().getData());
-				x = node.getLeft().getData();
-			}
-			
+
 		}
 		// checks if needs to go right
-		if (node.compareTo(x) > 0 && node.getRight() != null
+		if (node.compareTo(x) <= 0 && node.getRight() != null
 				&& !node.getRight().getData().toString().equals(x.toString()))
 			return remove(x, node.getRight());
-		else if (node.compareTo(x) > 0 && node.getRight() == null)
+		else if (node.compareTo(x) <= 0 && node.getRight() == null)
 			return false;
 		// checks if needs to go left
-		else if (node.compareTo(x) < 0 && node.getLeft() != null
+		else if (node.compareTo(x) >= 0 && node.getLeft() != null
 				&& !node.getLeft().getData().toString().equals(x.toString()))
 			return remove(x, node.getLeft());
-		else if (node.compareTo(x) < 0 && node.getLeft() == null)
+		else if (node.compareTo(x) >= 0 && node.getLeft() == null)
 			return false;
 
 		// checks if empty
@@ -113,7 +132,7 @@ public class BinarySearchTree {
 			 * if (node.getLeft() == null && node.getRight() == null) { node = null; return
 			 * true; } else
 			 */
-			if (node.compareTo(x) > 0 && node.getRight().getData().toString().equals(x.toString())) {
+			if (node.compareTo(x) <= 0 && node.getRight().getData().toString().equals(x.toString())) {
 				TreeNode toRemove = node.getRight();
 				if (toRemove.getLeft() == null && toRemove.getRight() == null) {
 					node.setRight(null);
@@ -162,7 +181,7 @@ public class BinarySearchTree {
 
 	private void evaluate(TreeNode current) {
 		if (current.getData() instanceof Contact)
-			System.out.println(((Contact)(current.getData())).forSaving());
+			System.out.println(((Contact) (current.getData())).forSaving());
 		else
 			System.out.println(current.getData().toString());
 	}
@@ -183,12 +202,12 @@ public class BinarySearchTree {
 	}
 
 	private TreeNode search(Comparable x, TreeNode node) {
-		if (node.compareTo(x) > 0)
+		if (node.compareTo(x) < 0)
 			if (node.getRight() != null)
 				return search(x, node.getRight());
 			else
 				return null;
-		else if (node.compareTo(x) < 0)
+		else if (node.compareTo(x) > 0)
 			if (node.getLeft() != null)
 				return search(x, node.getLeft());
 			else
@@ -236,18 +255,18 @@ public class BinarySearchTree {
 		else
 			return findLargest(node.getRight());
 	}
-	
+
 	public void saveToFile(FileWriter fw, TreeNode current) throws IOException {
 		if (current.getData() instanceof Contact) {
-			fw.write(((Contact)(current.getData())).forSaving());
+			fw.write(((Contact) (current.getData())).forSaving());
 		} else
-			fw.write(((Contact)(current.getData())).forSaving());
+			fw.write(((Contact) (current.getData())).forSaving());
 		fw.write(System.getProperty("line.separator"));
-		
+
 		if (current.getLeft() != null)
-			saveToFile(fw,current.getLeft());
+			saveToFile(fw, current.getLeft());
 		if (current.getRight() != null)
-			saveToFile(fw,current.getRight());
+			saveToFile(fw, current.getRight());
 	}
 
 	public TreeNode getRoot() {

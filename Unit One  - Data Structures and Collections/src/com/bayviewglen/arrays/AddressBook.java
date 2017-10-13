@@ -73,16 +73,19 @@ public class AddressBook {
 		FileWriter fw;
 		try {
 			fw = new FileWriter(new File("data/contactList.dat"));
-			/*ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
-			Collections.sort(toWrite);*/
+			/*
+			 * ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+			 * Collections.sort(toWrite);
+			 */
 			fw.write(numContacts + "");
 			fw.write(System.getProperty("line.separator"));
-			contacts.saveToFile(fw,contacts.getRoot());
-			/*for (int i = 0; i < toWrite.size(); i++) {
-				fw.write(((Contact) toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() + " "
-						+ ((Contact) toWrite.get(i)).getPhone());
-				fw.write(System.getProperty("line.separator"));
-			}*/
+			contacts.saveToFile(fw, contacts.getRoot());
+			/*
+			 * for (int i = 0; i < toWrite.size(); i++) { fw.write(((Contact)
+			 * toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getLname() +
+			 * " " + ((Contact) toWrite.get(i)).getPhone());
+			 * fw.write(System.getProperty("line.separator")); }
+			 */
 			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -109,13 +112,13 @@ public class AddressBook {
 	private void displayInfo() {
 		contacts.inorderTraversal(contacts.getRoot());
 		/*
-		ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
-		Collections.sort(toWrite);
-		for (int i = 0; i < toWrite.size(); i++) {
-			System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact) toWrite.get(i)).getFname()
-					+ " " + ((Contact) toWrite.get(i)).getPhone());
-
-		}*/
+		 * ArrayList<Comparable> toWrite = contacts.toArray(contacts.getRoot());
+		 * Collections.sort(toWrite); for (int i = 0; i < toWrite.size(); i++) {
+		 * System.out.println(((Contact) toWrite.get(i)).getLname() + ", " + ((Contact)
+		 * toWrite.get(i)).getFname() + " " + ((Contact) toWrite.get(i)).getPhone());
+		 * 
+		 * }
+		 */
 
 	}
 
@@ -123,7 +126,7 @@ public class AddressBook {
 		if (numContacts == 0) {
 			System.out.println("You have no contacts");
 		} else {
-		String nameToRemove = askName();
+			String nameToRemove = askName();
 			if (option == AdressBookDriver.SEARCH_LAST) {
 				Comparable search = contacts.search(nameToRemove);
 				if (search != null)
@@ -132,23 +135,35 @@ public class AddressBook {
 					System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 					return;
 				}
-			}else if (option == AdressBookDriver.DELETE_LAST){
-				boolean removed = contacts.remove(nameToRemove);
+			} else if (option == AdressBookDriver.DELETE_LAST) {
+				String[] toRemove = nameToRemove.split(" ");
+				boolean removed = contacts.remove(new Contact(toRemove[0], toRemove[1], "1234567899"),
+						contacts.getRoot());
 				if (removed) {
-				numContacts--;
-				System.out.println("Succesfully Deleted");
-				saveToFile();
-			} else 
-				System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
+					numContacts--;
+					System.out.println("Succesfully Deleted");
+					if (numContacts != 0)
+						saveToFile();
+				} else
+					System.out.println("\nCONTACT NOT IN ADDRESS BOOK\n");
 			}
 		}
-			
-		}
+
+	}
 
 	private String askName() {
 		// TODO enter check that is name entering
-		System.out.println("Enter in the name of contact: ");
-		return AdressBookDriver.input.nextLine().trim();
+		boolean valid = false;
+		String respon = "";
+		while (!valid) {
+			System.out.println("Enter in the name of contact: ");
+			respon = AdressBookDriver.input.nextLine().trim();
+			if (respon.indexOf(" ") != -1)
+				valid = true;
+			else
+				System.out.println("That is not valid first and last name");
+		}
+		return respon;
 	}
 
 	public void deleteByLastN(int indexOfRemove) {

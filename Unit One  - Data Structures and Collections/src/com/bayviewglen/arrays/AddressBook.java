@@ -129,6 +129,7 @@ public class AddressBook {
 
 	// similar in asking for a name so search and remove start with same user input
 	// process
+	//name is searchByLastN because originally searched by last name, but got changed for searching by first and last
 	public void searchByLastN(int option) {
 		if (numContacts == 0) {
 			System.out.println("You have no contacts");

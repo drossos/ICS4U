@@ -49,13 +49,13 @@ public class BinarySearchTree {
 	public void add(TreeNode currentParent, Comparable x) {
 		if (currentParent == null) {
 			currentParent = new TreeNode(x);
-		} else if (currentParent.compareTo(x) >= 0 && currentParent.getLeft() != null) {
+		} else if (currentParent.compareTo(x) > 0 && currentParent.getLeft() != null) {
 			add(currentParent.getLeft(), x);
-		} else if (currentParent.compareTo(x) < 0 && currentParent.getRight() != null) {
+		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() != null) {
 			add(currentParent.getRight(), x);
-		} else if (currentParent.compareTo(x) >= 0 && currentParent.getLeft() == null) {
+		} else if (currentParent.compareTo(x) > 0 && currentParent.getLeft() == null) {
 			currentParent.setLeft(new TreeNode(x));
-		} else if (currentParent.compareTo(x) < 0 && currentParent.getRight() == null) {
+		} else if (currentParent.compareTo(x) <= 0 && currentParent.getRight() == null) {
 			currentParent.setRight(new TreeNode(x));
 		}
 	}

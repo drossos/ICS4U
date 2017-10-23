@@ -1,10 +1,11 @@
 package com.bayviewglen.nqueens;
 
+import java.io.BufferedReader;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
-public class Driver {
+public class NQueens {
 
 	public static void main(String[] args) {
 		Scanner read = new Scanner(System.in);
@@ -12,7 +13,7 @@ public class Driver {
 		solveQueens(n);
 	}
 
-	private static void solveQueens(int n) {
+	public static void solveQueens(int n) {
 		boolean validSln = true;
 		n -= 1;
 		int filled = 1;

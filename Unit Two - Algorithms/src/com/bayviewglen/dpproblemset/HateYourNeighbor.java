@@ -7,15 +7,40 @@ import java.io.InputStreamReader;
 public class HateYourNeighbor {
 
 	public static void main(String[] args) throws IOException {
-		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		/*BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String[] srngNums = input.readLine().split(" ");
 		int[] nums = new int[srngNums.length];
 		for (int i = 0; i < srngNums.length; i++) {
 			nums[i] = Integer.parseInt(srngNums[i]);
 		}
-		srngNums = null;
+		srngNums = null;*/
+		int [] nums = {3,5,7,2,10};
 		
-		//first index is total value and other indices are the points on circle that are in that soloution
+		//these are the two different ways you can go to not allow for front and back element to be comapred
+		int [] noFront = new int[nums.length-1];
+		int [] noEnd = new int[nums.length-1];
+		int [] noFrontSoln = new int[nums.length];
+		int [] noEndSoln = new int[nums.length];
+		for (int i = 0; i < nums.length-1;i++) {
+			noEnd[i] = nums[i];
+			noFront[i] = nums[i+1];
+		}
+		//index of sln being subproblem with that many hoses in given array
+		noFrontSoln[0] = 0;
+		noEndSoln[0] = 0;
+		noFrontSoln[1] = noFront[0];
+		noEndSoln[1] = noEnd[0];
+		
+		for (int i = 1; i < noEnd.length;i++) {
+			noFrontSoln[i+1] = Math.max(noFrontSoln[i-1] + noFront[i],noFrontSoln[i]);
+			noEndSoln[i+1] = Math.max(noEndSoln[i-1] + noEnd[i],noEndSoln[i]);
+		}
+		
+		System.out.println(Math.max(noEndSoln[noEndSoln.length-1], noFrontSoln[noFrontSoln.length-1]));
+		
+		
+		
+		/*//first index is total value and other indices are the points on circle that are in that soloution
 		int[][] sln = new int[nums.length+1][1];
 		sln[0][0] = 0;
 		for (int i = 1; i < sln.length; i++) {
@@ -30,8 +55,8 @@ public class HateYourNeighbor {
 					if (notAdjacent) {
 						sln[i] = new int[sln[i-1].length+1];
 						sln[i][0] = sln[i-1][0] + nums[j];
-						/*sln[i] = sln[i-1];
-						sln[i][sln[i].length] = j;*/
+						sln[i] = sln[i-1];
+						sln[i][sln[i].length] = j;
 						for (int k = 1;k < sln[i-1].length; k++) {
 							sln[i][k] = sln[i-1][k];
 						}
@@ -41,41 +66,13 @@ public class HateYourNeighbor {
 			}
 		}
 		
-		System.out.println(sln[sln.length-1][0]);
+		System.out.println(sln[sln.length-1][0]);*/
 	}
 
 }
 
 
 	
-	//trying to make more efficent
-	/*Integer [] numsSorted = new Integer [nums.length];
-	for (int i = 0; i < nums.length; i++)
-		numsSorted[i] = nums[i];
-	Arrays.sort(numsSorted);
-	Integer[] sln = new Integer[nums.length+1];
-	Arrays.fill(sln, 0);
-	sln[0] = 0;
-	int frontCount = 1;
-	for (int i = numsSorted.length-1;i>=1; i--) {
-		if (sln[frontCount] == null || sln[frontCount-1] + numsSorted[i] > sln[frontCount]) {
-			boolean x = nums[Arrays.asList(nums).indexOf(numsSorted[i])] != nums.length-1;if (frontCount == 1) {
-				sln[frontCount] = sln[frontCount-1] + numsSorted[i];
-				nums[Arrays.asList(nums).indexOf(numsSorted[i])] = -1;
-			}
-			else if ( nums[Arrays.asList(nums).indexOf(numsSorted[i])] != nums.length-1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) + 1] != -1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) - 1] != -1 
-					|| frontCount == nums.length-1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) - 1] != -1) {
-				sln[frontCount] = sln[frontCount-1] + numsSorted[i];
-				nums[Arrays.asList(nums).indexOf(numsSorted[i])] = -1;
-			} else {
-				sln[frontCount] = sln[frontCount-1];
-			}
-		} else {
-			sln[frontCount] = sln[frontCount-1];
-		}
-		frontCount++;
-		
-		
-	}System.out.println(sln[sln.length-1]);*/
+	
 
 

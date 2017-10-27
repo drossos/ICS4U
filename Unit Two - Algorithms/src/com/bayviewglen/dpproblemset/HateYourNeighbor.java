@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 public class HateYourNeighbor {
 
 	public static void main(String[] args) throws IOException {
+		//un comment this code to make it take inputs instead of having hard coded array
+		
 		/*BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String[] srngNums = input.readLine().split(" ");
 		int[] nums = new int[srngNums.length];
@@ -14,6 +16,8 @@ public class HateYourNeighbor {
 			nums[i] = Integer.parseInt(srngNums[i]);
 		}
 		srngNums = null;*/
+		
+		//comment this line out if switching to input and not hardcoded
 		int [] nums = {3,5,7,2,10};
 		
 		//these are the two different ways you can go to not allow for front and back element to be comapred

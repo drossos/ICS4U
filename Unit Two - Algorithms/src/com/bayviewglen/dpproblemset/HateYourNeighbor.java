@@ -45,3 +45,37 @@ public class HateYourNeighbor {
 	}
 
 }
+
+
+	
+	//trying to make more efficent
+	/*Integer [] numsSorted = new Integer [nums.length];
+	for (int i = 0; i < nums.length; i++)
+		numsSorted[i] = nums[i];
+	Arrays.sort(numsSorted);
+	Integer[] sln = new Integer[nums.length+1];
+	Arrays.fill(sln, 0);
+	sln[0] = 0;
+	int frontCount = 1;
+	for (int i = numsSorted.length-1;i>=1; i--) {
+		if (sln[frontCount] == null || sln[frontCount-1] + numsSorted[i] > sln[frontCount]) {
+			boolean x = nums[Arrays.asList(nums).indexOf(numsSorted[i])] != nums.length-1;if (frontCount == 1) {
+				sln[frontCount] = sln[frontCount-1] + numsSorted[i];
+				nums[Arrays.asList(nums).indexOf(numsSorted[i])] = -1;
+			}
+			else if ( nums[Arrays.asList(nums).indexOf(numsSorted[i])] != nums.length-1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) + 1] != -1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) - 1] != -1 
+					|| frontCount == nums.length-1 && nums[Arrays.asList(nums).indexOf(numsSorted[i]) - 1] != -1) {
+				sln[frontCount] = sln[frontCount-1] + numsSorted[i];
+				nums[Arrays.asList(nums).indexOf(numsSorted[i])] = -1;
+			} else {
+				sln[frontCount] = sln[frontCount-1];
+			}
+		} else {
+			sln[frontCount] = sln[frontCount-1];
+		}
+		frontCount++;
+		
+		
+	}System.out.println(sln[sln.length-1]);*/
+
+

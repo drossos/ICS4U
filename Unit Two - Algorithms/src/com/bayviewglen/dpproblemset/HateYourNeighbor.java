@@ -12,7 +12,7 @@ public class HateYourNeighbor {
 		/*BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String[] srngNums = input.readLine().split(" ");
 		int[] nums = new int[srngNums.length];
-		for (int i = 0; i < srngNums.length; i++) {
+		for (indt i = 0; i < srngNums.length; i++) {
 			nums[i] = Integer.parseInt(srngNums[i]);
 		}
 		srngNums = null;*/

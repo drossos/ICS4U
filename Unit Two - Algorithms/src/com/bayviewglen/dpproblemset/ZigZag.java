@@ -3,28 +3,33 @@ package com.bayviewglen.dpproblemset;
 public class ZigZag {
 
 	public static void main(String[] args) {
-		int [] nums = {1,5,1,5};
+		int [] nums = {4,3,2,1};
 		int [] sln = new int[nums.length+1];
 		sln[0] = 0;
 		sln[1] = 1;
-		boolean currBigger = true;;
+		boolean increasing = true;
 		boolean either = true;
+		if (nums.length > 1) {
 		if (nums[1] > nums[0])
-			currBigger = true;
+			increasing = true;
 		else if (nums[1] < nums[0])
-			currBigger = false;
+			increasing = false;
 		else 
 			either = true;
 		
+		}
+		int toBeComapred = nums[0];
 		for (int i = 2; i < sln.length; i++) {
-			if (nums[i-1] > nums[i-2] && currBigger == true || either) {
+			if (nums[i-1] > toBeComapred && increasing == true || either && nums[i-1] != toBeComapred) {
 				sln[i] = sln[i-1] + 1;
-				currBigger = false;
+				increasing = false;
 				either = false;
-			} else if (nums[i-1] < nums[i-2] && currBigger == false || either) {
+				toBeComapred = nums[i-1];
+			} else if (nums[i-1] < nums[i-2] && increasing == false || either && nums[i-1] != toBeComapred) {
 				sln[i] = sln[i-1] + 1;
-				currBigger = true;
+				increasing = true;
 				either = false;
+				toBeComapred = nums[i-1];
 			} else {
 				sln[i] = sln[i-1];
 			}
@@ -33,5 +38,7 @@ public class ZigZag {
 		System.out.println(""+sln[sln.length-1]);
 
 	}
+	
+	
 
 }

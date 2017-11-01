@@ -18,7 +18,7 @@ public class HateYourNeighbor {
 		srngNums = null;*/
 		
 		//comment this line out if switching to input and not hardcoded
-		int [] nums = {3,5,7,2,10};
+		int [] nums = {10, 3, 2, 5, 7, 8};
 		
 		//these are the two different ways you can go to not allow for front and back element to be comapred
 		int [] noFront = new int[nums.length-1];

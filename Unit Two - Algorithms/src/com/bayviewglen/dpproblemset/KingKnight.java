@@ -1,6 +1,5 @@
 package com.bayviewglen.dpproblemset;
 
-import java.util.ArrayList;
 
 public class KingKnight {
 
@@ -17,9 +16,9 @@ public class KingKnight {
 		//sec y, third is x
 		int[][] sln = new int[1000][3]; 
 		for (int i =0; i < sln[0].length; i++) {
-			sln[i][0] = Integer.MAX_VALUE;
-			sln[i][1] = Integer.MAX_VALUE;
-			sln[i][2] = Integer.MAX_VALUE;
+			sln[i][0] = Math.abs(start[0] - end[0]) + Math.abs(start[1] - end[1]);
+			sln[i][1] = 0;
+			sln[i][2] = 0;
 		}
 		int slnIndex = 0;
 		//to direct movement
@@ -40,7 +39,7 @@ public class KingKnight {
 			else 
 				xDir = 0;
 			
-			//to check for the up L valid
+			//to check for the up L is best sln
 			if (curr[0] + 2*yDir < dimens && curr[1] + 1*xDir < dimens) {
 				//to find which one has less moves toget to end
 				if (Math.abs(curr[0] - 2*yDir - end[0]) + Math.abs(curr[1] + 1*xDir - end[1]) < sln[0][slnIndex]) {

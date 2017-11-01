@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class KingKnight {
 
 	public static void main(String[] args) {
+		/* Question asks for num of ways to get to end, not best num of moves to get to end*/
 		int dimens = 7;
 		int [] end = {0,3};
 		int [] start = {2,0};

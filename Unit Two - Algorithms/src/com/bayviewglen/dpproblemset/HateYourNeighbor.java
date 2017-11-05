@@ -12,14 +12,14 @@ public class HateYourNeighbor {
 		// array
 		BufferedReader input = new BufferedReader(new FileReader("data/BadNeighbor.dat"));
 		int lim = Integer.parseInt(input.readLine());
-		 int [] nums = {5 ,10, 7, 2, 9};
+		 //int [] nums = {5 ,10, 7, 2, 9};
 
 		for (int j = 0; j < lim; j++) {
 			input.readLine();
 			String[] srngNums = input.readLine().split(" ");
-			//int[] nums = new int[srngNums.length];
+			int[] nums = new int[srngNums.length];
 			for (int i = 0; i < srngNums.length; i++) {
-				//nums[i] = Integer.parseInt(srngNums[i]);
+				nums[i] = Integer.parseInt(srngNums[i]);
 			}
 
 			// comment this line out if switching to input and not hardcoded

@@ -1,15 +1,17 @@
 package com.bayviewglen.rossosdatastruct;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
 public class Graph {
-	private int numVert;
-	private int numEdge;
-	private LinkedList<MapNode>[] adjList;
+	public int numVert;
+	public int numEdge;
+	public LinkedList<MapNode>[] adjList;
 
 	public Graph() {
 		this.numVert = 0;
@@ -69,42 +71,42 @@ public class Graph {
 		return (visted[endingPoint]);
 	}
 
-	public int Dijkstra(int start, int end) {
-		if (!DFS(start, end)) {
-			return -1;
-		} else {
-			// [distance to get there][if that is locked 1= locked. 0 not locked]
-			int[][] distance = new int[numVert][2];
+	public int[][] Dijkstra(Graph g, int start) {
+			List unSettled = new ArrayList();
+			// [distance to get there][if that is locked 1= locked. 0 not locked] [where it came from]
+			int[][] distance = new int[numVert][3];
 			for (int i = 0; i < distance.length; i++) {
 				distance[i][0] = Integer.MAX_VALUE;
 			}
+			unSettled.add(start);
 			distance[start][0] = 0;
 			// distance[start][1] = 1;
-			//Queue q = new PriorityQueue();
-			int curr, currShortest = 0;
-			curr = start;
-			boolean first = true;
-			while (distance[end][1] != 1) {
-				first = true;
-				distance[curr][1] = 1;
-				for (int i = 0; i < adjList[curr].size(); i++) {
-					if (distance[adjList[curr].get(i).nodeName][1] != 1) {
-						distance[adjList[curr].get(i).nodeName][0] = distance[curr][0] + adjList[curr].get(i).edgeValue;
-						if (first) {
-							currShortest = adjList[curr].get(i).nodeName;
-							first = false;
-						} else {
-							if (distance[adjList[curr].get(i).nodeName][0] < distance[currShortest][0] ||distance[adjList[curr].get(i).nodeName][0] == distance[currShortest][0] && adjList[curr].get(i).nodeName == end) {
-								currShortest = adjList[curr].get(i).nodeName;
-							}
+			int evalNode  = start;
+			int minDist = Integer.MAX_VALUE;
+			while (!unSettled.isEmpty()) {
+				minDist = Integer.MAX_VALUE;
+				//START HERE AGAIN ITTERATING THROUGH 
+				for (int i = 0; i < adjList[evalNode].get(i).nodeName; i++) {
+					if (distance[adjList[evalNode].get(i).nodeName][1] != 1) {
+						unSettled.add(adjList[evalNode].get(i).nodeName);
+						if (distance[adjList[evalNode].get(i).nodeName][0] > distance[i][0] + adjList[evalNode].get(i).edgeValue) {
+						distance[adjList[evalNode].get(i).nodeName][0] = distance[i][0] + adjList[evalNode].get(i).edgeValue;
+						distance[adjList[evalNode].get(i).nodeName][2] = evalNode;
+						}
+						
+						if (adjList[evalNode].size() != 0) {
+						minDist = Math.min(distance[adjList[evalNode].get(i).nodeName][0] , minDist);
 						}
 					}
+					
+					evalNode = minDist;
+					unSettled.remove(evalNode);
+					
 				}
-					curr = currShortest;
-				
 			}
-			return distance[end][0];
-		}
+			
+			return distance;
+		
 	}
 
 	@Override

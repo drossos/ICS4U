@@ -6,8 +6,8 @@ var y = canvas.height - 30;
 var dx = 2;
 var dy = -2;
 var ballRadius = 10;
-var colorArr = ['#0006FF', '#FF00C6', '#32D500'];
-var color = colorArr[Math.floor(Math.random()*3)];
+var colorArr = ['#0006FF', '#FF00C6', '#32D500', '#42FF00'];
+var color = colorArr[Math.floor(Math.random() * colorArr.length)];
 var paddleHeight = 10;
 var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2;
@@ -23,20 +23,51 @@ var brickOffsetLeft = 30;
 var score = 0;
 var lives = 3;
 var bricks = [];
+var fallingPowers = [];
+var biggerPaddle = new Image();
+var fastBall = new Image();
+var lasers = new Image();
+var ballSpeed = 2;
+var laserEnabled = false;
+
+fastBall.src = "images/fast-ball.png";
+biggerPaddle.src = "images/long-paddle.png";
+lasers.src = "images/laser.png";
+
+var powerUps = [
+    ['fastBall', fastBall],
+    ['biggerPaddle', biggerPaddle],
+    ['lasers', lasers]
+];
+var maxPowerUps = (brickColumnCount * brickRowCount) / 4;
+
 for (c = 0; c < brickColumnCount; c++) {
+    var powerUpCount = 0
     bricks[c] = [];
     for (r = 0; r < brickRowCount; r++) {
-        bricks[c][r] = {
-            x: 0,
-            y: 0,
-            status: 1
-        };
+        if (Math.floor(Math.random() * 4) === 1) {
+            powerUpCount++;
+            bricks[c][r] = {
+                x: 0,
+                y: 0,
+                status: 1,
+                powerUp: powerUps[Math.floor(Math.random() * powerUps.length)][0]
+            };
+        } else {
+            bricks[c][r] = {
+                x: 0,
+                y: 0,
+                status: 1,
+                powerUp: null
+            };
+        }
     }
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
+//document.addEventListener("spacebar", )
 
 function drawPaddle() {
     ctx.beginPath();
@@ -86,7 +117,7 @@ function drawScore() {
 function drawLives() {
     ctx.font = "16px Arial";
     ctx.fillStyle = "#0095DD";
-    ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+    ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
 }
 
 function draw() {
@@ -95,6 +126,8 @@ function draw() {
     drawBall();
     collisionDetection();
     drawPaddle();
+    drawFallingPowers();
+    checkPowerGrab();
     drawScore();
     drawLives();
     canvas.style.backgroundColor = color;
@@ -117,8 +150,8 @@ function draw() {
             } else {
                 x = canvas.width / 2;
                 y = canvas.height - 30;
-                dx = 2;
-                dy = -2;
+                dx = ballSpeed;
+                dy = -ballSpeed;
                 paddleX = (canvas.width - paddleWidth) / 2;
             }
         }
@@ -134,6 +167,30 @@ function draw() {
     y += dy;
 }
 
+function checkPowerGrab(){
+    for (i = 0; i < fallingPowers.length;i++){
+        if (fallingPowers[i].x > paddleX - paddleWidth && fallingPowers[i].x < paddleX+paddleWidth && fallingPowers[i].y === canvas.height-40){
+            fallingPowers[i].y += canvas.height;
+            applyPowerUp(fallingPowers[i].name);
+        }
+    }
+}
+
+function applyPowerUp(powerUp){
+    if (powerUp === 'fastBall'){
+        ballSpeed += 5;
+    } else if (powerUp === "biggerPaddle"){
+        paddleWidth += 30;
+    } else if (powerUp === "lasers"){
+        laserEnabled = true;
+    }
+}
+function drawFallingPowers(){
+    for (i = 0; i < fallingPowers.length;i++){
+        ctx.drawImage(fallingPowers[i].img,fallingPowers[i].x,fallingPowers[i].y,40,40);
+        fallingPowers[i].y++;
+    }
+}
 function keyDownHandler(e) {
     if (e.keyCode == 39) {
         rightPressed = true;
@@ -166,11 +223,27 @@ function collisionDetection() {
                     dy = -dy;
                     b.status = 0;
                     score++;
+                    if (b.powerUp != null) {
+                        checkPowerUp(b.powerUp, b);
+                    }
                     if (score == brickRowCount * brickColumnCount) {
                         alert("YOU WIN, CONGRATULATIONS!");
                         document.location.reload();
                     }
                 }
+            }
+        }
+    }
+}
+
+function checkPowerUp(powerUp, brick) {
+    for (i = 0; i < powerUps.length; i++) {
+        if (powerUp === powerUps[i][0]) {
+            fallingPowers[fallingPowers.length] = {
+                x: brick.x,
+                y: brick.y,
+                img: powerUps[i][1],
+                name: powerUps[i][0]
             }
         }
     }

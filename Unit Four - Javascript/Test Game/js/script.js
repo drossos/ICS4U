@@ -15,7 +15,9 @@ var leftPressed = false;
 var upPressed = false;
 var downPressed = false;
 var linkFront = new Image();
-var firstMapSeq = "t t t t t t t e e t t t t t t t t t t t d t t e e t t t t t t t t t t t e e e e e t t t t t t t t t t e e e e e e t t t t t t t t t e e e e e e e t t t t t t t e e e e e e e e e e e e e e e e t t e e e e e e e e e e e e t t t t e e e e e e e e e e e e t t t t e e e e e e e e e e e e t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t";
+var linkFrontAnim = new Image();
+var firstMapSeq = "t e t t t t t e e t t t t t t t t t t t d t t e e t t t t t t t t t t t e e e e e t t t t t t t t t t e e e e e e t t t t t t t t t e e e e e e e t t t t t t t e e e e e e e e e e e e e e e e t t e e e e e e e e e e e e t t t t e e e e e e e e e e e e t t t t e e e e e e e e e e e e t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t t";
+var oldManCave =  "";
 var firstMapArr = firstMapSeq.split(" ");
 //16x11 level grids
 var movementGrid = [];
@@ -23,7 +25,10 @@ var currentPos = {
     xIndex: 7,
     yIndex: 6
 };
+
+
 linkFront.src = "images/link-front.png";
+linkFrontAnim.src = "images/link-front-anim.png";
 
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -46,20 +51,33 @@ function initScreen() {
                 movementGrid[i][j] = {
                     type: "empty"
                 };
+            } else if (firstMapArr[indexCount] === 'd'){
+                movementGrid[i][j] = {
+                    type: "door"
+                }
             }
             indexCount++;
         }
     }
+
+
 }
 
 function draw() {
+
     drawLink();
     checkMovement();
     drawLink();
 }
 
 function drawLink() {
+    //drawLinkAnimation();
     ctx.drawImage(linkFront, x, y, linkWidth, linkHeight);
+    
+}
+
+function drawLinkAnimation(){
+    ctx.drawImage(linkFrontAnim, x, y, linkWidth, linkHeight);
 }
 
 function checkMovement() {
@@ -79,6 +97,11 @@ function checkMovement() {
         clearLink();
         currentPos.yIndex++;
         y += yMovmentLink;
+    }
+
+    if (upPressed && movementGrid[currentPos.yIndex][currentPos.xIndex].type === 'door'){
+        console.log("door is responisve");
+        canvas.style.backgroundImage = "url(images/old-man-cave.png)";
     }
 }
 
@@ -100,6 +123,7 @@ function keyDownHandler(e) {
     } else if (e.keyCode == 40) {
         downPressed = true;
     }
+    drawLinkAnimation();
 }
 
 function keyUpHandler(e) {
@@ -114,17 +138,6 @@ function keyUpHandler(e) {
     }
 }
 
-function border(startX, startY, length, width) {
-    this.startX = startX;
-    this.startY = startY;
-    this.length = length;
-    this.width = width;
 
-    //to see if the point is within this border
-    //TODO check to see if this works
-    /*this.containsPoint = fucntion (x,y){
-        return (x < startX+width && x > startX && y < startY+length && y > startY)
-    };*/
-}
 
 setInterval(draw, 80);

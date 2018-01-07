@@ -1,0 +1,54 @@
+#canvas {
+	 background: #F1FAEE; 
+	 display: block; 
+	 margin: 0 auto;
+	 margin-top: 20px;
+	 margin-bottom: 20px;
+
+}
+
+@font-face {
+    font-family: 'roboto-light'; /*a name to be used later*/
+    src: url("Roboto-Light.ttf"); /*URL to font*/
+}
+
+body {
+	font-family: "roboto-light";
+	background: #696D7D;
+
+}
+
+#content {
+	background: #D0CDD7;
+	margin-right: 150px;
+	margin-left: 150px;
+	padding-right: 150px;
+	padding-left: 150px;
+	padding-bottom: 100px;
+	padding-top: 40px;
+	line-height: 200%;
+}
+
+pre{
+    background-color: #fefefc;
+    color: #585858;
+    font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+    font-size: 14px;
+    padding: 1.8em 6px 1.8em 16px;
+    margin-bottom: 1.5em;
+    display: block;
+    overflow: auto;
+    overflow-y: auto;
+    border: 1px solid #e2e2da;
+    border-radius: 5px;
+    line-height: 1.5em;
+}
+
+
+#aplic{
+	padding-right: 200px;
+}
+
+#secret{
+	font-size: 8px;
+}

@@ -24,6 +24,7 @@ var score = 0;
 var lives = 3;
 var bricks = [];
 var fallingPowers = [];
+var lasersShot = [];
 var biggerPaddle = new Image();
 var fastBall = new Image();
 var lasers = new Image();
@@ -67,7 +68,7 @@ for (c = 0; c < brickColumnCount; c++) {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 document.addEventListener("mousemove", mouseMoveHandler, false);
-//document.addEventListener("spacebar", )
+
 
 function drawPaddle() {
     ctx.beginPath();
@@ -128,6 +129,7 @@ function draw() {
     drawPaddle();
     drawFallingPowers();
     checkPowerGrab();
+    drawLasers();
     drawScore();
     drawLives();
     canvas.style.backgroundColor = color;
@@ -167,6 +169,17 @@ function draw() {
     y += dy;
 }
 
+function drawLasers(){
+    for (i =0 ; i < lasersShot.length; i++){
+        ctx.beginPath();
+        ctx.rect(lasersShot[i].x, lasersShot[i].y, 5, 10);
+        ctx.fillStyle = "#00FFF0";
+        ctx.fill();
+        ctx.closePath();
+        lasersShot[i].y--;
+    }
+}
+
 function checkPowerGrab(){
     for (i = 0; i < fallingPowers.length;i++){
         if (fallingPowers[i].x > paddleX - paddleWidth && fallingPowers[i].x < paddleX+paddleWidth && fallingPowers[i].y === canvas.height-40){
@@ -196,6 +209,11 @@ function keyDownHandler(e) {
         rightPressed = true;
     } else if (e.keyCode == 37) {
         leftPressed = true;
+    } else if (e.keyCode == 32 && laserEnabled){
+        lasersShot[lasersShot.length] = {
+            x: paddleX + paddleWidth/2  ,
+            y: canvas.height
+        }
     }
 }
 

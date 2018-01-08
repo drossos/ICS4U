@@ -8,8 +8,8 @@
 }
 
 @font-face {
-    font-family: 'roboto-light'; /*a name to be used later*/
-    src: url("Roboto-Light.ttf"); /*URL to font*/
+    font-family: 'roboto-light'; 
+    src: url("Roboto-Light.ttf"); 
 }
 
 body {

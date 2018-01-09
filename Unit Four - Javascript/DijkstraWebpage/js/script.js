@@ -249,7 +249,10 @@ var steps = [
             [3, finalizedCol, "6"],
         ],
         [
-            [3, defLineColor]
+            [3, defLineColor],
+            [7, defLineColor],
+            [8, defLineColor],
+            [9, defLineColor]
         ]
 
     ],
@@ -569,8 +572,10 @@ function drawNodes() {
 
         ctx.fillStyle = "black";
         ctx.font = "35px Arial";
-        ctx.fillText(nodes[i].value, nodes[i].xCord - 17, nodes[i].yCord + 15);
-
+        if (nodes[i].value.length == 1)
+        	ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 2, nodes[i].yCord + (canvas.height / 20)/2);
+        else 
+        	ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 1.25, nodes[i].yCord + (canvas.height / 20)/2);
 
     }
 }

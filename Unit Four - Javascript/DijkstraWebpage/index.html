@@ -12,11 +12,11 @@
 	<hr>
 	<h2 class = "heading">Introduction</h2>
 	<p id="Description">
-		Edsger Wybe Dijsktra was a Dutch computer scientist. One of his most famous contributions to the field was Dijkstra's Alogrithm. An alorithm that given a start node on a weighted graph will find the shortest distance to everyother node on the graph and the route taken. This results in a final graph that contains the shortest path to get to each node. Dijkstra algorithm works with both directed and undirected graphs, but one requirment is that all edges have non negative weights. 
+		Edsger Wybe Dijsktra was a Dutch computer scientist. One of his most famous contributions to the field was Dijkstra's Algorithm. An algorithm that given a start node on a weighted graph will find the shortest distance to every other node on the graph and the route taken. This results in a final graph that contains the shortest path to get to each node. Dijkstra algorithm works with both directed and undirected graphs, but one requirement is that all edges have non negative weights.
 	</p>
 		<br>
 	<p> 
-		Below is an example to demonstrate the algorithm in action. Verbal explanation for each step is also found under the demonstration. Use the arrow keys to naviagte through the steps.
+		Below is an example to demonstrate the algorithm in action. Verbal explanation for each step is also found under the demonstration. Use the arrow keys to navigate through the steps.
 	</p>
 
 	
@@ -34,15 +34,35 @@
 		<a href="https://github.com/drossos">
 		<img src="images/google_maps.jpeg" style="float: right; width:100px; height:100px;">
 	</a>
-	<p>Dijkstra's Algorithm is used in geographical mapping, in IP routing, telephone networking and it is used by Google maps to determine fasteset distance to points.
+	<p>Dijkstra's Algorithm is used in geographical mapping, in IP routing, telephone networking and it is used by Google maps to determine fastest distance to points.
 	</p>
 	<p id="secret">
 		<br>
 		(click the google maps logo to find your way to something special)
 	</p>
 	</div>
-	<h1> Java Implementation</h2>
-		<pre>
+	<h1> Pseudocode </h1>
+	<pre>
+//Pseudocode credited to gitta.info
+
+function Dijkstra(Graph, source):
+	for each vertex v in Graph:			// Initialization
+		dist[v] := infinity			// initial distance from source to vertex v is set to infinite
+		previous[v] := undefined		// Previous node in optimal path from source
+	dist[source] := 0				// Distance from source to source
+	Q := the set of all nodes in Graph		// all nodes in the graph are unoptimized - thus are in Q
+	while Q is not empty:				// main loop
+		u := node in Q with smallest dist[ ]
+		remove u from Q
+		for each neighbor v of u:		// where v has not yet been removed from Q.
+			alt := dist[u] + dist_between(u, v)
+			if alt < dist[v]		// Relax (u,v)
+				dist[v] := alt
+				previous[v] := u
+	return previous[ ]
+</pre>
+	<h1> Java Implementation</h1>
+	<pre>
 //code credited to rosettacode.org
  
 import java.io.*;

@@ -1,68 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8" />
-	<title>Dijkstra Alogrthm</title>
-	<link rel="stylesheet" type="text/css" href="style/style.css">
-</head>
-
-<body id="body">
-	<div id = "content">
-	<h1 id="title">Dijkstra Algorthm</h1>
-	<hr>
-	<h2 class = "heading">Introduction</h2>
-	<p id="Description">
-		Edsger Wybe Dijsktra was a Dutch computer scientist. One of his most famous contributions to the field was Dijkstra's Algorithm. An algorithm that given a start node on a weighted graph will find the shortest distance to every other node on the graph and the route taken. This results in a final graph that contains the shortest path to get to each node. Dijkstra algorithm works with both directed and undirected graphs, but one requirement is that all edges have non negative weights.
-	</p>
-		<br>
-	<p> 
-		Below is an example to demonstrate the algorithm in action. Verbal explanation for each step is also found under the demonstration. Use the arrow keys to navigate through the steps.
-	</p>
-
-	
-	<p>
-		<canvas id="canvas" width="900" height="500"></canvas>
-		<script type="text/javascript" src="js/script.js"></script>
-	</p>
-	<h1>Explanation</h1>
-	<p id = "descriptions">
-		We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity
-	</p>
-	<br>
-	<h1> Applications of the Algorithm</h1>
-	<div id = "aplic">
-		<a href="https://github.com/drossos">
-		<img src="images/google_maps.jpeg" style="float: right; width:100px; height:100px;">
-	</a>
-	<p>Dijkstra's Algorithm is used in geographical mapping, in IP routing, telephone networking and it is used by Google maps to determine fastest distance to points.
-	</p>
-	<p id="secret">
-		<br>
-		(click the google maps logo to find your way to something special)
-	</p>
-	</div>
-	<h1> Pseudocode </h1>
-	<pre>
+   <head>
+      <meta charset="utf-8" />
+      <title>Dijkstra Alogrthm</title>
+      <link rel="stylesheet" type="text/css" href="style/style.css">
+   </head>
+   <body id="body">
+      <div id = "content">
+         <h1 id="title">Dijkstra Algorthm</h1>
+         <hr>
+         <h2 class = "heading">Introduction</h2>
+         <p id="Description">
+            Edsger Wybe Dijsktra was a Dutch computer scientist. One of his most famous contributions to the field was Dijkstra's Algorithm. An algorithm that given a start node on a weighted graph will find the shortest distance to every other node on the graph and the route taken. This results in a final graph that contains the shortest path to get to each node. Dijkstra algorithm works with both directed and undirected graphs, but one requirement is that all edges have non negative weights.
+         </p>
+         <br>
+         <p>
+            Below is an example to demonstrate the algorithm in action. Verbal explanation for each step is also found under the demonstration. Use the arrow keys to navigate through the steps.
+         </p>
+         
+         <p>
+            <canvas id="canvas" width="900" height="500"></canvas>
+            <script type="text/javascript" src="js/script.js"></script>
+         </p>
+         <h1>Explanation</h1>
+         <p id = "descriptions">
+            We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity
+         </p>
+         <br>
+         <h1> Applications of the Algorithm</h1>
+         <div id = "aplic">
+            <a href="https://github.com/drossos">
+               <img src="images/google_maps.jpeg" style="float: right; width:100px; height:100px;">
+            </a>
+            <p>Dijkstra's Algorithm is used in geographical mapping, in IP routing, telephone networking and it is used by Google maps to determine fastest distance to points.
+            </p>
+            <p id="secret">
+               <br>
+               (click the google maps logo to find your way to something special)
+            </p>
+         </div>
+         <h1> Pseudocode </h1>
+   <pre>
 //Pseudocode credited to gitta.info
 
 function Dijkstra(Graph, source):
-	for each vertex v in Graph:			// Initialization
-		dist[v] := infinity			// initial distance from source to vertex v is set to infinite
-		previous[v] := undefined		// Previous node in optimal path from source
-	dist[source] := 0				// Distance from source to source
-	Q := the set of all nodes in Graph		// all nodes in the graph are unoptimized - thus are in Q
-	while Q is not empty:				// main loop
-		u := node in Q with smallest dist[ ]
-		remove u from Q
-		for each neighbor v of u:		// where v has not yet been removed from Q.
-			alt := dist[u] + dist_between(u, v)
-			if alt < dist[v]		// Relax (u,v)
-				dist[v] := alt
-				previous[v] := u
-	return previous[ ]
+   for each vertex v in Graph:         // Initialization
+      dist[v] := infinity        // initial distance from source to vertex v is set to infinite
+      previous[v] := undefined      // Previous node in optimal path from source
+   dist[source] := 0          // Distance from source to source
+   Q := the set of all nodes in Graph     // all nodes in the graph are unoptimized - thus are in Q
+   while Q is not empty:            // main loop
+      u := node in Q with smallest dist[ ]
+      remove u from Q
+      for each neighbor v of u:     // where v has not yet been removed from Q.
+         alt := dist[u] + dist_between(u, v)
+         if alt < dist[v]     // Relax (u,v)
+            dist[v] := alt
+            previous[v] := u
+   return previous[ ]
 </pre>
-	<h1> Java Implementation</h1>
-	<pre>
+   <h1> Java Implementation</h1>
+   <pre>
 //code credited to rosettacode.org
  
 import java.io.*;
@@ -107,45 +105,45 @@ class Graph {
  
    /** One vertex of the graph, complete with mappings to neighbouring vertices */
   public static class Vertex implements Comparable<Vertex>{
-	public final String name;
-	public int dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
-	public Vertex previous = null;
-	public final Map<Vertex, Integer> neighbours = new HashMap<>();
+   public final String name;
+   public int dist = Integer.MAX_VALUE; // MAX_VALUE assumed to be infinity
+   public Vertex previous = null;
+   public final Map<Vertex, Integer> neighbours = new HashMap<>();
  
-	public Vertex(String name)
-	{
-		this.name = name;
-	}
+   public Vertex(String name)
+   {
+      this.name = name;
+   }
  
-	private void printPath()
-	{
-		if (this == this.previous)
-		{
-			System.out.printf("%s", this.name);
-		}
-		else if (this.previous == null)
-		{
-			System.out.printf("%s(unreached)", this.name);
-		}
-		else
-		{
-			this.previous.printPath();
-			System.out.printf(" -> %s(%d)", this.name, this.dist);
-		}
-	}
+   private void printPath()
+   {
+      if (this == this.previous)
+      {
+         System.out.printf("%s", this.name);
+      }
+      else if (this.previous == null)
+      {
+         System.out.printf("%s(unreached)", this.name);
+      }
+      else
+      {
+         this.previous.printPath();
+         System.out.printf(" -> %s(%d)", this.name, this.dist);
+      }
+   }
  
-	public int compareTo(Vertex other)
-	{
-		if (dist == other.dist)
-			return name.compareTo(other.name);
+   public int compareTo(Vertex other)
+   {
+      if (dist == other.dist)
+         return name.compareTo(other.name);
  
-		return Integer.compare(dist, other.dist);
-	}
+      return Integer.compare(dist, other.dist);
+   }
  
-	@Override public String toString()
-	{
-		return "(" + name + ", " + dist + ")";
-	}
+   @Override public String toString()
+   {
+      return "(" + name + ", " + dist + ")";
+   }
 }
  
    /** Builds a graph from a set of edges */
@@ -225,11 +223,11 @@ class Graph {
       }
    }
 }
-		</pre>
-		<p>Output:</p>
-	<pre>
+      </pre>
+      <p>Output:</p>
+   <pre>
 a -> c(9) -> d(20) -> e(26)
-	</pre>
-</div>
-</body>
+   </pre>
+      </div>
+   </body>
 </html>

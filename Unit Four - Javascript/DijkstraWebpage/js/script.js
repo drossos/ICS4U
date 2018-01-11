@@ -83,37 +83,37 @@ drawEdges();
 drawNodes();
 //contains all explinations for each steps, the index of each string is the indentifier to access it later when the steps are updated
 var stepsExplinations = [
-    "We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity",
-    "For this example we chose the left most node to be our starting point. The starting point has a value of zero since it is the start node. This value is the smallest distance possible, so we consider this node to be in the finalized set so it's value will not change. We then look at all un-finalized nodes that are connected to this newly added node.",
-    "From here we compare the value of the un-finalized node with the value of the finalized node plus the weight of the edge to get to that un-finalized node. The lower of these two values becomes the value of the un-finalized node. In this step we can see all the node values that were considered are updated.",
-    "Now we select the un-finalized node with the lowest node value and the edge to get there from a finalized node. This edge can be seen in the step above",
-    "This lowest un-finalized node is now considered to be the lowest value to get to that node so we will now consider part of the finalized set (as seen by the change in colour) and the edge to get to that node will be considered part of the optimized map. This greedy approach was proven by Dijkstra when he developed this algorithm to be true in determining the fastest way to a node.",
-    "We now consider all the edges that connect the newest finalized node to an un-finalized node.",
-    "The connected nodes have their values checked and then updated.",
-    "The lowest un-finalized node and the edge that connects it is now considered. (Note how the lowest un-finalized node that is chosen doesn't have to be connected to newest finalized node)",
-    "This node is now finalized and the edge that connects it is now part of the optimized graph.",
-    "All the edges that connect the newest finalized node to an un-finalized node are considered.",
-    "The connecting un-finalized nodes now have their values considered and potentially updated.",
-    "The lowest un-finalized node and the edge that connects are now added to the finalized set. Notice how in this case there are two nodes that are tied with the lowest value. It does not matter which of these nodes you choose to finalize. You will end up with the same solution in the end.",
-    "All the edges that connect the newest finalized node to an un-finalized node are considered.",
-    "The connecting un-finalized nodes now have their values considered and potentially updated.",
-    "The lowest un-finalized node and the edge that connects it is now considered.",
-    "The node now is considered finalized.",
-    "The connecting un-finalized nodes now have their values considered and potentially updated.",
-    "The lowest un-finalized node and the edge that connects it is now considered.",
-    "The node now is considered finalized.",
-    "We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity",
-    "The lowest un-finalized node and the edge that connects it is now considered.",
-    "The node now is considered finalized. Now that there are not longer nodes in the un-finalized set and all the nodes are now in the finalized set the algorithm is finished and you are left with an optimized graph and the minimum distance to get to any node from the start node.",
+        "We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity",
+        "For this example we chose the left most node to be our starting point. The starting point has a value of zero since it is the start node. This value is the smallest distance possible, so we consider this node to be in the finalized set so it's value will not change. We then look at all un-finalized nodes that are connected to this newly added node.",
+        "From here we compare the value of the un-finalized node with the value of the finalized node plus the weight of the edge to get to that un-finalized node. The lower of these two values becomes the value of the un-finalized node. In this step we can see all the node values that were considered are updated.",
+        "Now we select the un-finalized node with the lowest node value and the edge to get there from a finalized node. This edge can be seen in the step above",
+        "This lowest un-finalized node is now considered to be the lowest value to get to that node so we will now consider part of the finalized set (as seen by the change in colour) and the edge to get to that node will be considered part of the optimized map. This greedy approach was proven by Dijkstra when he developed this algorithm to be true in determining the fastest way to a node.",
+        "We now consider all the edges that connect the newest finalized node to an un-finalized node.",
+        "The connected nodes have their values checked and then updated.",
+        "The lowest un-finalized node and the edge that connects it is now considered. (Note how the lowest un-finalized node that is chosen doesn't have to be connected to newest finalized node)",
+        "This node is now finalized and the edge that connects it is now part of the optimized graph.",
+        "All the edges that connect the newest finalized node to an un-finalized node are considered.",
+        "The connecting un-finalized nodes now have their values considered and potentially updated.",
+        "The lowest un-finalized node and the edge that connects are now added to the finalized set. Notice how in this case there are two nodes that are tied with the lowest value. It does not matter which of these nodes you choose to finalize. You will end up with the same solution in the end.",
+        "All the edges that connect the newest finalized node to an un-finalized node are considered.",
+        "The connecting un-finalized nodes now have their values considered and potentially updated.",
+        "The lowest un-finalized node and the edge that connects it is now considered.",
+        "The node now is considered finalized.",
+        "The connecting un-finalized nodes now have their values considered and potentially updated.",
+        "The lowest un-finalized node and the edge that connects it is now considered.",
+        "The node now is considered finalized.",
+        "We start out with a weighted graph. All the nodes have a value that indicates the distance to get to that point from the starting node. Starting out before we pick a starting node we consider all of them to have a value of infinity",
+        "The lowest un-finalized node and the edge that connects it is now considered.",
+        "The node now is considered finalized. Now that there are not longer nodes in the un-finalized set and all the nodes are now in the finalized set the algorithm is finished and you are left with an optimized graph and the minimum distance to get to any node from the start node.",
 
 
 
 
 
-]
-//this is just the changes in each step
-//each step there are two arrays, the first array contains the information about the change in any nodes[which node, color, value of node]
-//the second array contains information of the change in any edges [which edge, color of edge]
+    ]
+    //this is just the changes in each step
+    //each step there are two arrays, the first array contains the information about the change in any nodes[which node, color, value of node]
+    //the second array contains information of the change in any edges [which edge, color of edge]
 var steps = [
     [
         [
@@ -574,9 +574,9 @@ function drawNodes() {
         ctx.fillStyle = "black";
         ctx.font = "35px Arial";
         if (nodes[i].value.length == 1)
-        	ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 2, nodes[i].yCord + (canvas.height / 20)/2);
-        else 
-        	ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 1.25, nodes[i].yCord + (canvas.height / 20)/2);
+            ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 2, nodes[i].yCord + (canvas.height / 20) / 2);
+        else
+            ctx.fillText(nodes[i].value, nodes[i].xCord - (canvas.height / 20) / 1.25, nodes[i].yCord + (canvas.height / 20) / 2);
 
     }
 }

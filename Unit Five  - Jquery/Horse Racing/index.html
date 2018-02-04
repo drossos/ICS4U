@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Horse Racing</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="style/style.css">
+		<link rel="stylesheet" type="text/css" href="style/jquery-ui.css">
+	</head>
+	<body>
+		<h1 id="test">Horse Racing</h1>
+		<div id ="pageSelect">
+			<button class="topButton" id="booth-toggle">Go to the betting booth</button>
+			<button class="topButton" id="main-toggle"> Go to players screen</button>
+			<button class="topButton" id="race-toggle"> Go to race!!!!!!!</button>
+		</div>
+		<div id="dialog-form" title="Create new user">
+			<p class="validateTips">All form fields are required.</p>
+			
+			<form>
+				<fieldset>
+					<label for="name">Name</label>
+					<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+					
+					
+					<!-- Allow form submission with keyboard without duplicating the dialog button -->
+					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+				</fieldset>
+			</form>
+		</div>
+		
+		
+		
+		<div id="users-contain" class="ui-widget">
+			<h1>Existing Users:</h1>
+			<table id="users" class="ui-widget ui-widget-content">
+				<thead>
+					<tr class="ui-widget-header ">
+						<th>Name</th>
+						<th>Wallet</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			
+			<button id="create-user">Create new Player</button>
+		</div>
+		
+		<div id="horses-contain" class="ui-widget">
+			<h1>Horses in next Race:</h1>
+			<table id="horsesIR" class="ui-widget ui-widget-content">
+				<thead>
+					<tr class="ui-widget-header ">
+						<th>Name</th>
+						<th>Nature</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<div id="race-track">
+			<p>
+				<canvas id="canvas" width="900" height="500"></canvas>
+				<script type="text/javascript" src = "js/jquery.js"></script>
+				<script type="text/javascript" src = "js/jquery-ui.js"></script>
+				<script type="text/javascript" src = "js/data.js"></script>
+				<script type="text/javascript" src = "js/script.js"></script>
+			</p>
+		</div>
+		<div id="bet-menu">
+			
+		</div>
+		<div id="tabs">
+			<ul id = "bettingTabs">
+
+			</ul>
+		</div>
+	</body>
+</html>

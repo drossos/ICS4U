@@ -72,6 +72,10 @@ $(window).load(function() {
     horseEight.src = "images/horse8.png";
 
 
+
+
+
+
     //this is for the multi tab betting area
     $(function() {
         bettingNames.tabs();
@@ -106,9 +110,21 @@ $(window).load(function() {
     initTabs();
     $('#refreshTabs').hide();
     $('#betExplination').hide();
+    $("#alert").hide();
+    //setTimeout(followMyGitHub,1);
 
+    //plays music
     var audio = new Audio('style/theme.mp3');
-   // audio.play();
+    audio.play();
+    //creates sound effect to be used
+    var cashNoise = new Audio('style/cash.mp3');
+
+
+
+
+    function followMyGitHub(){
+      popUp("Having Fun? Consider supporting the creator <a href=\"https://github.com/drossos\">Daniel Rossos' Github</a> . Thank you from the whole team!")
+    }
 
     function player() {
         name: "DEFAULT_NAME";
@@ -140,19 +156,27 @@ $(window).load(function() {
                 if (currentBets[index][j][0] == horseSelct) {
                     currentBets[index][j][1] += moneyValue;
                     players[index][1] -= moneyValue;
+                    cashNoise.play();
                     return j;
 
                 } else if (currentBets[index][j][0] == "") {
                     currentBets[index][j][0] += horseSelct;
                     currentBets[index][j][1] += moneyValue;
                     players[index][1] -= moneyValue;
+                    cashNoise.play();
                     return j;
                 } else if (j == currentBets[index].length - 1) {
-                    window.alert("You have already bet on 3 horses within the next race");
+
+                    popUp("You have already bet on 3 horses within the next race");
+
+                    // window.alert("You have already bet on 3 horses within the next race");
                 }
             }
         } else {
-            window.alert("Do not have enough money to make that bet!!");
+           
+                popUp("Do not have enough money to make that bet!!");
+               
+            //window.alert("Do not have enough money to make that bet!!");
             //}
         }
     }
@@ -203,7 +227,19 @@ $(window).load(function() {
                 "</tr>");
             dialog.dialog("close");
         }
+
+        //p sure this works
+        clearBettingNamesTable();
+        updateBettingNamesTabs();
+        addCurrentBets();
         return valid;
+    }
+
+    function popUp(message) {
+        $(function() {
+            $("#alert p").html(message);
+            $("#alert").dialog();
+        });
     }
 
     //checks if name is not already in the list
@@ -212,12 +248,12 @@ $(window).load(function() {
         for (i = 0; i < players.length; i++) {
             //only single quote because they are not the same type so tripple quotes would return false always
             if (players[i][0] == name.val()) {
-                window.alert("Do not enter the same player name twice")
+                popUp("Do not enter the same player name twice");
                 return false;
             }
         }
-        if (name.val() < 1){
-            window.alert("Please enter a name");
+        if (name.val() < 1) {
+            popUp("Please enter a name");
             return false;
         }
         players.push(new Array(name.val(), 100, 0));
@@ -268,12 +304,12 @@ $(window).load(function() {
         race();
     });
 
-    //TODO FIX WHEN UPDATING LIST FOR THE DROP MENU
-    $('#refreshTabs').button().on('click', function() {
+    
+    /*$('#refreshTabs').button().on('click', function() {
         clearBettingNamesTable();
         updateBettingNamesTabs();
         addCurrentBets();
-    });
+    });*/
 
 
     function addCurrentBets() {
@@ -307,10 +343,10 @@ $(window).load(function() {
         $("#booth-toggle").show();
         $("#main-toggle").hide();
         $("#race-toggle").show();
-         $('#intro').show();
-         $('#refreshTabs').hide();
-         $("#create-user").show();
-         $("#betExplination").hide();
+        $('#intro').show();
+        $('#refreshTabs').hide();
+        $("#create-user").show();
+        $("#betExplination").hide();
 
     }
 
@@ -322,33 +358,34 @@ $(window).load(function() {
         $("#booth-toggle").show();
         $("#main-toggle").show();
         $("#race-toggle").hide();
+        clearTrack();
         drawLanes(canvas.height / horsesInRace.length);
-         $('#intro').hide();
-         $('#refreshTabs').hide();
-         $("#create-user").hide();
-         $("#betExplination").hide();
+        $('#intro').hide();
+        $('#refreshTabs').hide();
+        $("#create-user").hide();
+        $("#betExplination").hide();
     }
 
     //picks random number and then pushes this new horse and it's odds to the horses next race array
     function fillRace() {
-        var numHorses = Math.floor(Math.random() * (8 - 5) + 5);
+        var numHorses = Math.floor(Math.random() * (8 - 6) + 6);
         horsesInRace = new Array();
         for (i = 0; i <= numHorses; i++) {
 
-            
-                var temp = horses[Math.floor((Math.random() * horses.length))];
-                if (horseNotInRace(temp)){
+
+            var temp = horses[Math.floor((Math.random() * horses.length))];
+            if (horseNotInRace(temp)) {
                 horsesInRace.push(new Array([temp], ["idk"]));
-        }
+            }
 
         }
 
     }
 
     //make sure no duplicates in race
-    function horseNotInRace(temp){
-        for (j=0; j<horsesInRace.length;j++){
-            if (horsesInRace[j][0] == temp){
+    function horseNotInRace(temp) {
+        for (j = 0; j < horsesInRace.length; j++) {
+            if (horsesInRace[j][0] == temp) {
                 return false;
             }
         }
@@ -477,10 +514,10 @@ $(window).load(function() {
         ctx.closePath();
         drawLanes();
         var raceDone = false;
-         winningHorse = "";
-        refreshIntervalId = setInterval(animate, 1000);
+        winningHorse = "";
+        refreshIntervalId = setInterval(animate, 500);
         animate(raceDone, refreshIntervalId);
-      
+
 
 
     }
@@ -494,7 +531,6 @@ $(window).load(function() {
         //}
 
         if (winningHorse != "") {
-            window.alert("The winning horse this round is "+winningHorse);
             payoutBets(winningHorse);
             initCurrentBets();
             updatePlayerDisplay();
@@ -503,12 +539,12 @@ $(window).load(function() {
             updateInRaceList();
             updateHorseOptions();
             clearHorseDistances();
-           clearInterval(refreshIntervalId);
+            clearInterval(refreshIntervalId);
         }
     }
 
-    function clearHorseDistances(){
-        for (i=0;i <horseImgArr.length;i++){
+    function clearHorseDistances() {
+        for (i = 0; i < horseImgArr.length; i++) {
             horseImgArr[i][1] = 0;
         }
     }
@@ -522,26 +558,35 @@ $(window).load(function() {
             ctx.closePath();
 
             ctx.beginPath();
-            ctx.rect(canvas.width-canvas.width/100, 0, canvas.width/100, canvas.height);
+            ctx.rect(canvas.width - canvas.width / 100, 0, canvas.width / 100, canvas.height);
             ctx.fillStyle = "#DC0000";
             ctx.fill();
             ctx.closePath();
         }
     }
 
+    function clearTrack(){
+      ctx.beginPath();
+        ctx.rect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = raceBColor;
+        ctx.fill();
+        ctx.closePath();
+    }
+
     function drawHorses(raceDone, heightOfLane) {
+      var horseSpriteSize = heightOfLane / 1.12;
         for (i = 0; i < horsesInRace.length; i++) {
             ctx.beginPath();
-            ctx.rect(horseImgArr[i][1], (heightOfLane / 2) + heightOfLane * i - heightOfLane / 3, heightOfLane / 1.12, heightOfLane / 1.12);
+            ctx.rect(horseImgArr[i][1], (heightOfLane / 2) + heightOfLane * i - heightOfLane / 3, horseSpriteSize, horseSpriteSize);
             ctx.fillStyle = raceBColor;
             ctx.fill();
             ctx.closePath();
 
-            horseImgArr[i][1] += Math.floor(Math.random() * (50 - 20) + 20);
+            horseImgArr[i][1] += Math.floor(Math.random() * (100 - 20) + 20);
             ctx.beginPath();
-            ctx.drawImage(horseImgArr[i][0], horseImgArr[i][1], (heightOfLane / 2) + heightOfLane * i - heightOfLane / 3, heightOfLane / 1.12, heightOfLane / 1.12);
+            ctx.drawImage(horseImgArr[i][0], horseImgArr[i][1], (heightOfLane / 2) + heightOfLane * i - heightOfLane / 3, horseSpriteSize, horseSpriteSize);
             ctx.closePath();
-            if (horseImgArr[i][1] >= canvas.width - heightOfLane / 1.5) {
+            if (horseImgArr[i][1] >= canvas.width - horseSpriteSize) {
 
                 winningHorse = horsesInRace[i][0];
             }
@@ -551,7 +596,7 @@ $(window).load(function() {
 
     }
 
-    
+
     function payoutBets(winningHorse) {
         var winnerMessage = "";
         var prefixMessage = "";
@@ -566,14 +611,16 @@ $(window).load(function() {
             }
         }
 
-        if (hasWinners){
-            prefixMessage+="Congratualtions to the winners! ";
-            window.alert(prefixMessage + "$"+ winnerMessage);
-        } else{
-            window.alert("There were no winners this round. Try harder next time.");
+        if (hasWinners) {
+            prefixMessage += "The winning horse this round is " + winningHorse + "Congratualtions to the winners! <br><br>";
+            popUp(prefixMessage + " $" + winnerMessage);
+            cashNoise.play();
+            setTimeout(followMyGitHub,6000);
+
+        } else {
+            popUp("The winning horse this round is " + winningHorse + "<br><br>There were no winning bets this round. Try harder next time.");
         }
 
     }
 
 });
-

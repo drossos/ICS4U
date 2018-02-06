@@ -108,7 +108,7 @@ $(window).load(function() {
     $('#betExplination').hide();
 
     var audio = new Audio('style/theme.mp3');
-    audio.play();
+   // audio.play();
 
     function player() {
         name: "DEFAULT_NAME";
@@ -334,12 +334,26 @@ $(window).load(function() {
         var numHorses = Math.floor(Math.random() * (8 - 5) + 5);
         horsesInRace = new Array();
         for (i = 0; i <= numHorses; i++) {
-            horsesInRace.push(new Array([horses[Math.floor((Math.random() * horses.length))]], ["idk"]));
+
+            
+                var temp = horses[Math.floor((Math.random() * horses.length))];
+                if (horseNotInRace(temp)){
+                horsesInRace.push(new Array([temp], ["idk"]));
+        }
 
         }
 
     }
 
+    //make sure no duplicates in race
+    function horseNotInRace(temp){
+        for (j=0; j<horsesInRace.length;j++){
+            if (horsesInRace[j][0] == temp){
+                return false;
+            }
+        }
+        return true;
+    }
 
     //adds all horses that are in the race array to the html table to be displayed
     function updateInRaceList() {
@@ -454,20 +468,19 @@ $(window).load(function() {
 
     //TODO MAKE IT SO IT POSSIBLE TO SEE WHOLE ANIMATION
     function race() {
-        drawLanes();
+
         //so race doesn't keep getting layered over
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = raceBColor;
         ctx.fill();
         ctx.closePath();
-
-
+        drawLanes();
         var raceDone = false;
-
+         winningHorse = "";
         refreshIntervalId = setInterval(animate, 1000);
         animate(raceDone, refreshIntervalId);
-       
+      
 
 
     }
@@ -489,7 +502,14 @@ $(window).load(function() {
             fillRace()
             updateInRaceList();
             updateHorseOptions();
+            clearHorseDistances();
            clearInterval(refreshIntervalId);
+        }
+    }
+
+    function clearHorseDistances(){
+        for (i=0;i <horseImgArr.length;i++){
+            horseImgArr[i][1] = 0;
         }
     }
 
@@ -531,22 +551,29 @@ $(window).load(function() {
 
     }
 
-    //TODO ADD AND ODS FEATURES
+    
     function payoutBets(winningHorse) {
-
+        var winnerMessage = "";
+        var prefixMessage = "";
+        var hasWinners = false;
         for (i = 0; i < currentBets.length; i++) {
             for (j = 0; j < currentBets[i].length; j++) {
                 if (currentBets[i][j][0] == winningHorse) {
+                    hasWinners = true;
                     players[i][1] += currentBets[i][j][1] * 2;
+                    winnerMessage += players[i][0] + " has won " + currentBets[i][j][1];
                 }
             }
+        }
+
+        if (hasWinners){
+            prefixMessage+="Congratualtions to the winners! ";
+            window.alert(prefixMessage + "$"+ winnerMessage);
+        } else{
+            window.alert("There were no winners this round. Try harder next time.");
         }
 
     }
 
 });
 
-function sleepFor(sleepDuration) {
-    var now = new Date().getTime();
-    while (new Date().getTime() < now + sleepDuration) { /* do nothing */ }
-}

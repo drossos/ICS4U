@@ -9,12 +9,16 @@
 	<body>	
 		<h1 id="title">Raving Rossos Horse Racing</h1>
 		<hr>
+		
+		<img id="intro" src="images/introimg.jpg" height="600px" width="1000px" style="display: inline-block; float: left;">
+
+		<div class="rightPannel">
 		<div id ="pageSelect">
 			<button class="topButton" id="booth-toggle">Go to the betting booth</button>
 			<button class="topButton" id="main-toggle"> Go to players screen</button>
 			<button class="topButton" id="race-toggle"> Go to race!!!!!!!</button>
-		</div>
-		<img id="intro" src="images/introimg.jpg" height="600px" width="1000px" style="display: inline-block; float: left;">
+		
+	</div>
 		<div id="dialog-form" title="Create new user">
 			<p class="validateTips">All form fields are required.</p>
 			
@@ -64,6 +68,7 @@
 				</tbody>
 			</table>
 		</div>
+	</div>
 		<div id="race-track">
 			<p>
 				<canvas id="canvas" width="1200" height="1100"></canvas>
@@ -74,12 +79,15 @@
 			</p>
 			<button id="startRace">Start the RACE!!!!</button>
 		</div>
-		<p1 id="betExplination">Click and drag the money to the booth to make your bet. (Ehterium coin is worth $500)</p1>
+		<div id="betExplination">
+		<p1>Click and drag the money to the booth to make your bet. (Ehterium coin is worth $500)</p1>
+	</div>
 		<div id="bet-menu" style="display: inline-block;">
 
-			
+			<button id="refreshTabs" style="float: right; display: inline-block;clear: right;">Click to Refresh bottom tabs</button>
 		</div>
-		<button id="refreshTabs" style="float: right; display: inline-block;clear: right;">Click to Refresh bottom tabs</button>
+
+		
 		<div id="tabs">
 
 			<ul id = "bettingTabs">
